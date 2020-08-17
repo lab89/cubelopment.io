@@ -1,0 +1,11 @@
+// export enum actionEnum{
+//     CHECK_INDEXED_DB,
+//     ADD_OPERATION,
+//     CONFIG_ANIMATION_TERM,
+//     CONFIG_COLOR_SET,
+//     MAKE_URL_STRING,
+//     CONFIG_CAMERA_POSITION
+// }
+
+export const CHECK_INDEXED_DB = "CHECK_INDEXED_DB";
+export const SET_PANEL_COLOR = "SET_PANEL_COLOR"
