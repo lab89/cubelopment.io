@@ -5,7 +5,7 @@ import CubeArea from './CubeArea/CubeArea'
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './stores/reducers';
-import {CHECK_INDEXED_DB, SAVE_CONFIG} from './enums/actionEnum'
+import {checkIndexedDB, saveConfig} from './actions/action'
 import guify from 'guify'
 
 function datGUI(guiObject: any){
@@ -28,18 +28,20 @@ const gui = datGUI(new guify({
 }))();
 
 function App() {
-  const {cube} = useSelector((state: RootState)=> state.appReducer.stickerConfig);
+  const {stickerConfig} = useSelector((state: RootState)=> state.configReducer);
+  const operations = useSelector((state: RootState)=> state.operationReducer);
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    console.log("%c actionEnum.CHECK_INDEXED_DB", 'background: #222; color: #bada55')
-    dispatch({type : CHECK_INDEXED_DB})
+    console.log("%c CHECK_INDEXED_DB", 'background: #222; color: #bada55')
+    dispatch(checkIndexedDB())
   }, []); //once
 
   useEffect(()=>{
     console.log("%c App useEffect", 'background: #222; color: #bada55')
-    console.log(cube);
-    if(cube && gui.loadedComponents.length === 0){
+    console.log(stickerConfig);
+    console.log(operations);
+    if(Object.keys(stickerConfig).length && gui.loadedComponents.length === 0){
       gui.Register({
         type: 'title',
         label: 'App Config'
@@ -60,7 +62,7 @@ function App() {
         label: 'front',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'f',
       });
       gui.Register({
@@ -68,7 +70,7 @@ function App() {
         label: 'back',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'b',
       });
       gui.Register({
@@ -76,7 +78,7 @@ function App() {
         label: 'up',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'u',
       });
       gui.Register({
@@ -84,7 +86,7 @@ function App() {
         label: 'down',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'd',
       });
       gui.Register({
@@ -92,7 +94,7 @@ function App() {
         label: 'left',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'l',
       });
       gui.Register({
@@ -100,7 +102,7 @@ function App() {
         label: 'right',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: cube,
+        object: stickerConfig,
         property: 'r',
       });
 
@@ -115,7 +117,7 @@ function App() {
             label: 'marker color',
             format: 'rgb',
             folder : 'Marker Config',
-            object: cube,
+            object: stickerConfig,
             property: 'marker',
         });
       gui.Register({
@@ -123,9 +125,7 @@ function App() {
           label: 'SAVE',
           folder : 'Color Config',
           action: () => {
-              dispatch({type : SAVE_CONFIG, config: {
-                      cube : cube
-                  }});
+              dispatch(saveConfig(stickerConfig))
           }
       });
 
@@ -143,9 +143,7 @@ function App() {
           label: 'CREATE OPERATION',
           folder : 'Operation Config',
           action: () => {
-              dispatch({type : SAVE_CONFIG, config: {
-                      cube : cube
-                  }});
+              
           }
       });
       gui.Register({
@@ -164,9 +162,19 @@ function App() {
           label : 'Stop',
           folder : 'description1'
       });
+      gui.Register({
+        type : 'button',
+        label : 'Remove',
+        folder : 'description1'
+      });
+      gui.Register({
+        type : 'button',
+        label : 'Save',
+        folder : 'description1'
+      });
     }
     console.log(gui)
-  },[cube])
+  },[stickerConfig])
 
   return (
     <Container fluid>
