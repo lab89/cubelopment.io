@@ -5,7 +5,7 @@ import CubeArea from './CubeArea/CubeArea'
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './stores/reducers';
-import {CHECK_INDEXED_DB} from './enums/actionEnum'
+import {CHECK_INDEXED_DB, SAVE_CONFIG} from './enums/actionEnum'
 import guify from 'guify'
 
 function datGUI(guiObject: any){
@@ -17,7 +17,7 @@ function datGUI(guiObject: any){
 
 // https://github.com/colejd/guify
 const gui = datGUI(new guify({
-  title: 'Test App',
+  title: 'cubelopment.io',
   theme: 'dark', // dark, light, yorha, or theme object
   align: 'right', // left, right
   width: 300,
@@ -28,26 +28,36 @@ const gui = datGUI(new guify({
 }))();
 
 function App() {
-  const {cube, marker} = useSelector((state: RootState)=> state.appReducer.stickerConfig);
-  const dispatch = useDispatch();  
-  
-  useEffect(()=>{            
-    console.log("%c actionEnum.CHECK_INDEXED_DB", 'background: #222; color: #bada55')    
+  const {cube} = useSelector((state: RootState)=> state.appReducer.stickerConfig);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    console.log("%c actionEnum.CHECK_INDEXED_DB", 'background: #222; color: #bada55')
     dispatch({type : CHECK_INDEXED_DB})
-  }, []) //once
+  }, []); //once
 
   useEffect(()=>{
     console.log("%c App useEffect", 'background: #222; color: #bada55')
     console.log(cube);
-    if(cube){
+    if(cube && gui.loadedComponents.length === 0){
+      gui.Register({
+        type: 'title',
+        label: 'App Config'
+      });
+      gui.Register({
+          type : 'folder',
+          label : 'Color Config',
+          open : false
+      });
       gui.Register({
         type: 'folder',
         label: 'Sticker Config',
+        folder : 'Color Config',
         open: true
       });
       gui.Register({
         type: 'color',
-        label: 'f',
+        label: 'front',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
@@ -55,7 +65,7 @@ function App() {
       });
       gui.Register({
         type: 'color',
-        label: 'b',
+        label: 'back',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
@@ -63,7 +73,7 @@ function App() {
       });
       gui.Register({
         type: 'color',
-        label: 'u',
+        label: 'up',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
@@ -71,7 +81,7 @@ function App() {
       });
       gui.Register({
         type: 'color',
-        label: 'd',
+        label: 'down',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
@@ -79,7 +89,7 @@ function App() {
       });
       gui.Register({
         type: 'color',
-        label: 'l',
+        label: 'left',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
@@ -87,22 +97,85 @@ function App() {
       });
       gui.Register({
         type: 'color',
-        label: 'r',
+        label: 'right',
         format: 'rgb',
         folder : 'Sticker Config',
         object: cube,
         property: 'r',
-      });      
+      });
+
+      gui.Register({
+          type: 'folder',
+          label: 'Marker Config',
+          folder : 'Color Config',
+          open: true
+      });
+      gui.Register({
+            type: 'color',
+            label: 'marker color',
+            format: 'rgb',
+            folder : 'Marker Config',
+            object: cube,
+            property: 'marker',
+        });
+      gui.Register({
+          type: 'button',
+          label: 'SAVE',
+          folder : 'Color Config',
+          action: () => {
+              dispatch({type : SAVE_CONFIG, config: {
+                      cube : cube
+                  }});
+          }
+      });
+
+      gui.Register({
+          type: 'title',
+          label: 'Operations'
+      });
+      gui.Register({
+          type : 'folder',
+          label : 'Operation Config',
+          open : true
+      });
+      gui.Register({
+          type: 'button',
+          label: 'CREATE OPERATION',
+          folder : 'Operation Config',
+          action: () => {
+              dispatch({type : SAVE_CONFIG, config: {
+                      cube : cube
+                  }});
+          }
+      });
+      gui.Register({
+          type : 'folder',
+          label : 'description1',
+          folder : 'Operation Config',
+          open : true
+      });
+      gui.Register({
+          type : 'button',
+          label : 'Animate',
+          folder : 'description1'
+      });
+      gui.Register({
+          type : 'button',
+          label : 'Stop',
+          folder : 'description1'
+      });
     }
     console.log(gui)
   },[cube])
 
   return (
-    <Container fluid>    
+    <Container fluid>
       <Row>
-        <Col sm={12} style={{padding : "0px"}}>
+        <Col sm={10} style={{padding : "0px"}}>
           <CubeArea/>
-        </Col>                
+        </Col>
+        <Col sm={2} style={{padding : "0px"}}>
+        </Col>
       </Row>
     </Container>
   );

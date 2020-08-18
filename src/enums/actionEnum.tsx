@@ -8,4 +8,5 @@
 // }
 
 export const CHECK_INDEXED_DB = "CHECK_INDEXED_DB";
-export const SET_PANEL_COLOR = "SET_PANEL_COLOR"
+export const SET_PANEL_COLOR = "SET_PANEL_COLOR";
+export const SAVE_CONFIG = "SAVE_CONFIG";
