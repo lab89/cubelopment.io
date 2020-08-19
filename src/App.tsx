@@ -147,29 +147,37 @@ function App() {
           }
       });
       gui.Register({
+        type : 'button',
+        label : 'Animate All',
+        folder : 'Operation Config'
+      });      
+
+      gui.Register({
+        type : 'button',
+        label : 'Stop Animation',
+        folder : 'Operation Config'
+      });      
+
+      gui.Register({
           type : 'folder',
           label : 'description1',
           folder : 'Operation Config',
           open : true
-      });
+      });     
       gui.Register({
-          type : 'button',
-          label : 'Animate',
-          folder : 'description1'
-      });
+        type : 'text',
+        label : 'operation',
+        folder : 'description1',
+        initial : 'FRURU'
+      })
       gui.Register({
-          type : 'button',
-          label : 'Stop',
-          folder : 'description1'
-      });
+        type : 'button',
+        label : 'Animate',
+        folder : 'description1'
+      });      
       gui.Register({
         type : 'button',
         label : 'Remove',
-        folder : 'description1'
-      });
-      gui.Register({
-        type : 'button',
-        label : 'Save',
         folder : 'description1'
       });
     }
