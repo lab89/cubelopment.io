@@ -6,8 +6,7 @@ export enum actionType {
     SET_CONFIG_TO_PANEL = 'SET_CONFIG_TO_PANEL',
     SAVE_CONFIG = 'SAVE_CONFIG',
     CREATE_OPERATION = 'CREATE_OPERATION',
-    REMOVE_OPERATION = 'REMOVE_OPERATION',
-    MODIFY_OPERATION = 'MODIFY_OPERATION'
+    REMOVE_OPERATION = 'REMOVE_OPERATION'
 }
 
 export function checkIndexedDB() {
@@ -19,8 +18,8 @@ export function saveConfig(config: object){
 export function setConfigToPanel(config: ConfigState){
     return {type : 'SET_CONFIG_TO_PANEL', payload: config}
 }
-export function createOperation(){
-    return {type : 'CREATE_OPERATION', payload: null}
+export function createOperation(description: string){
+    return {type : 'CREATE_OPERATION', payload: description}
 }
 
 

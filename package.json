@@ -11,7 +11,6 @@
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
-    "EventDispatcher": "^2.0.1",
     "bootstrap": "^4.5.2",
     "guify": "^0.12.0",
     "idb": "^5.0.4",
