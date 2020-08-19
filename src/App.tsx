@@ -24,7 +24,7 @@ class GUI {
     this.configUIs = {
       colorConfigUI: [],
       operationConfigUI : [],
-    }    
+    }     
     this._initBasicConfigUI();
   }
 
