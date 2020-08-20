@@ -3,10 +3,10 @@ import guify from 'guify'
 import { EventDispatcher } from 'EventDispatcher';
 import { ConfigState } from '../stores/ConfigReducer';
 import { OperationState } from '../stores/OperationReducer';
-import { checkIndexedDB, saveConfig, saveOperations, createOperation } from '../actions/action';
+import { checkIndexedDB, saveConfig, saveOperations, createOperation, removeOperation, removeOperations } from '../actions/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../stores/reducers';
-import {Container, Row, Col, Modal, Button, InputGroup, FormControl, Alert, Fade} from 'react-bootstrap'
+import { Modal, Button, InputGroup, FormControl, Alert, Fade} from 'react-bootstrap'
 
 interface ConfigUIs {
     colorConfigUI: Array<any>,  
@@ -16,7 +16,7 @@ interface ConfigUIs {
 class GUI {
     public gui: any;
     private configUIs:ConfigUIs; 
-    public eventDispatcher = new EventDispatcher(['SAVE_COLOR_CONFIG', 'SAVE_OPERATIONS', 'CREATE_OPERATION']);
+    public eventDispatcher = new EventDispatcher(['SAVE_COLOR_CONFIG', 'SAVE_OPERATIONS', 'CREATE_OPERATION', 'REMOVE_OPERATION', 'REMOVE_OPERATIONS']);
     private colorConfigData: ConfigState | null = null;
     private operationConfigData: Array<OperationState> | null = null;
     constructor(guiObject: any){
@@ -68,6 +68,8 @@ class GUI {
         label : 'Remove All',
         folder : 'Operation Action',
         action: () => {        
+            if(this.operationConfigData?.length)
+                this.eventDispatcher.trigger('REMOVE_OPERATIONS', { data : null});
         }
         }); 
         this.gui.Register({
@@ -212,6 +214,7 @@ class GUI {
             label : 'Remove',
             folder : operation.description,
             action: () => {        
+                this.eventDispatcher.trigger('REMOVE_OPERATION', { data : operation.description});
             }
         }))
         })  
@@ -229,10 +232,19 @@ function PanelArea(){
     const operations = useSelector((state: RootState)=> state.operationReducer);
     const dispatch = useDispatch();
 
-    const [show, setShow] = useState(false);
+    const [createModalShow, setCreateModalShow] = useState(false);
+    const [removeModalShow, setRemoveModalShow] = useState(false);
+
     const description: null | {current : any} = useRef(null);
     const [warnMessage, setWarnMessage] = useState("");
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setCreateModalShow(false);
+        setRemoveModalShow(false);
+    }
+    const handlerRemoveOperations = () => {
+        dispatch(removeOperations());
+        setRemoveModalShow(false);
+    }
     const handleAfterSaveClose = () => {    
         const inputedValue = description?.current?.value
         if(inputedValue.length){
@@ -242,7 +254,7 @@ function PanelArea(){
             setWarnMessage('')
             //make operation
             dispatch(createOperation(inputedValue));
-            setShow(false);
+            setCreateModalShow(false);
         }else{
             setWarnMessage('duplication description name')
         }      
@@ -275,11 +287,11 @@ function PanelArea(){
             open: true
         }));
 
-        dat_gui.eventDispatcher.on('SAVE_COLOR_CONFIG', (event: any)=>{ dispatch(saveConfig(event.data))})   
-        dat_gui.eventDispatcher.on('CREATE_OPERATION', (event: any)=> { 
-        setShow(true);
-        })
-        dat_gui.eventDispatcher.on('SAVE_OPERATIONS', (event: any)=>{dispatch(saveOperations(event.data))})
+        dat_gui.eventDispatcher.on('SAVE_COLOR_CONFIG', (event: any)=> dispatch(saveConfig(event.data)));   
+        dat_gui.eventDispatcher.on('CREATE_OPERATION', (event: any)=> setCreateModalShow(true));
+        dat_gui.eventDispatcher.on('SAVE_OPERATIONS', (event: any)=> dispatch(saveOperations(event.data)));
+        dat_gui.eventDispatcher.on('REMOVE_OPERATION', (event: any)=> dispatch(removeOperation(event.data)));
+        dat_gui.eventDispatcher.on('REMOVE_OPERATIONS', (event: any)=> setRemoveModalShow(true));
         dispatch(checkIndexedDB())
     }, []); //once
 
@@ -300,8 +312,8 @@ function PanelArea(){
     return(
         <>
             <div className="min-vh-100" style={{"border": "1px solid green", "overflow" : "auto"}} id="panelUI"></div>
-            <Modal show={show}>
-                <Modal.Header closeButton>
+            <Modal show={createModalShow}>
+                <Modal.Header>
                 <Modal.Title>Make Operation</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>          
@@ -321,6 +333,24 @@ function PanelArea(){
                 </Button>
                 <Button variant="primary" onClick={handleAfterSaveClose}>
                     Save
+                </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={removeModalShow}>
+                <Modal.Header>
+                <Modal.Title>Remove All Confirm</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    If you click the Accept button, 
+                    all operations are deleted and cannot be reversed. 
+                    Are you sure you want to delete?
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={handlerRemoveOperations}>
+                    Accept
                 </Button>
                 </Modal.Footer>
             </Modal>

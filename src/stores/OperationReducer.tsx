@@ -22,7 +22,9 @@ export function operationReducer(state = operationState, action: createOperation
         case actionType.SAVE_OPERATIONS:
             return (action.payload as Array<OperationState>).map((operation)=> operation);
         case actionType.REMOVE_OPERATION:
-            return state;
+            return state.filter((operation)=> operation.description !== action.payload)            
+        case actionType.REMOVE_OPERATIONS:
+            return state.filter((operation)=> false);
         default:
             return state;
     }
