@@ -12,6 +12,8 @@ import createSagaMiddleware from "redux-saga";
 import { openDB, deleteDB } from 'idb/with-async-ittr.js';
 import { Store, set } from 'idb-keyval';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));

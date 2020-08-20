@@ -1,4 +1,4 @@
-import {actionType, createOperationlAction} from "../actions/action";
+import {actionType, createOperationlAction, saveOperationsAction} from "../actions/action";
 import { uuid } from 'uuidv4';
 export interface OperationState {
     uuid: string
@@ -8,20 +8,19 @@ export interface OperationState {
 
 const operationState: Array<OperationState> = []
 
-export function operationReducer(state = operationState, action: createOperationlAction): Array<OperationState> { 
+export function operationReducer(state = operationState, action: createOperationlAction | saveOperationsAction): Array<OperationState> { 
+    const newState = state.map((opr)=> opr);
     switch(action.type){
         case actionType.CREATE_OPERATION:
-            if(action.payload && typeof action.payload  === 'string'){
-                const operation = {
-                    uuid: uuid(),
-                    description: action.payload as string,
-                    operation : ""
-                } as OperationState
-                const newState = state.map((opr)=> opr)
-                newState.push(operation);
-                return newState;
-            }            
-            return state;
+            const operation = {
+                uuid: uuid(),
+                description: action.payload as string,
+                operation : ""
+            } as OperationState            
+            newState.push(operation);
+            return newState;
+        case actionType.SAVE_OPERATIONS:
+            return (action.payload as Array<OperationState>).map((operation)=> operation);
         case actionType.REMOVE_OPERATION:
             return state;
         default:
