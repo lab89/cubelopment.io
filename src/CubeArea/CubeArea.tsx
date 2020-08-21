@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import {CSS3DRenderer, CSS3DObject} from 'three/examples/jsm/renderers/CSS3DRenderer'
 import * as THREE from 'three';
-import RubiksCube from 'three-rubiks-cube'
 import {useSelector} from "react-redux";
 import {RootState} from "../stores/reducers";
 import { ConfigState } from '../stores/ConfigReducer';
-import {CSS3DRenderer} from 'three/examples/jsm/renderers/CSS3DRenderer'
+import RubiksCube from 'three-rubiks-cube'
+
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 class CSS3DEnv {
@@ -54,9 +55,10 @@ class CSS3DEnv {
                     "u": "rgba(230, 245, 252, 1)",
                     "d": "rgba(235, 253, 57, 1)",
                 },
-                fitment : "fully_fitted"
+                fitment : "fully_fitted",
+                mirror : true
             });
-        console.log(this.cube.children[0])
+        console.log(this.cube.children[0] instanceof CSS3DObject)
         
         this.scene.add(this.cube);
         
