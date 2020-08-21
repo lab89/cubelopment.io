@@ -3,26 +3,29 @@ import guify from 'guify'
 import { EventDispatcher } from 'EventDispatcher';
 import { ConfigState } from '../stores/ConfigReducer';
 import { OperationState } from '../stores/OperationReducer';
-import { checkIndexedDB, saveConfig, saveOperations, createOperation, removeOperation, removeOperations } from '../actions/action';
+import { checkIndexedDB, saveConfig, saveOperations, createOperation, removeOperation, removeOperations, toggleMirrorMode } from '../actions/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../stores/reducers';
 import { Modal, Button, InputGroup, FormControl, Alert, Fade} from 'react-bootstrap'
+import { css3dEnv } from '../CubeArea/CubeArea';
 
 interface ConfigUIs {
     colorConfigUI: Array<any>,  
+    mirrorConfigUI: Array<any>,
     operationConfigUI : Array<any>
   }
   
 class GUI {
     public gui: any;
     private configUIs:ConfigUIs; 
-    public eventDispatcher = new EventDispatcher(['SAVE_COLOR_CONFIG', 'SAVE_OPERATIONS', 'CREATE_OPERATION', 'REMOVE_OPERATION', 'REMOVE_OPERATIONS']);
-    private colorConfigData: ConfigState | null = null;
+    public eventDispatcher = new EventDispatcher(['SAVE_COLOR_CONFIG', 'SAVE_OPERATIONS', 'CREATE_OPERATION', 'REMOVE_OPERATION', 'REMOVE_OPERATIONS', 'TOGGLE_MIRROR_MODE']);
+    private configData: ConfigState | null = null;
     private operationConfigData: Array<OperationState> | null = null;
     constructor(guiObject: any){
         this.gui = guiObject;
         this.configUIs = {
         colorConfigUI: [],
+        mirrorConfigUI : [],
         operationConfigUI : [],
         }     
         this._initBasicConfigUI();
@@ -39,6 +42,11 @@ class GUI {
         open : false
         })
         this.gui.Register({
+        type : 'folder',
+        label : 'Mirror Config',
+        open : false
+        })
+        this.gui.Register({
         type: 'title',
         label: 'Operation Action'
         });
@@ -47,6 +55,14 @@ class GUI {
         label : 'Operation Action',
         open : true
         });
+        this.gui.Register({
+        type : 'button',
+        label : 'Reset',
+        folder : 'Operation Action',      
+        action: () => {          
+            css3dEnv.cube.refreshCube();
+        }
+        }); 
         this.gui.Register({
         type : 'button',
         label : 'Create Operation',
@@ -85,6 +101,7 @@ class GUI {
 
     private _initializeAppConfigUI(data: ConfigState){
         this._colorConfigUI(data);
+        this._mirrorToggleUI(data);
     }
 
     private _colorConfigUI(data: ConfigState){
@@ -99,7 +116,7 @@ class GUI {
         label: 'front',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'f',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -107,7 +124,7 @@ class GUI {
         label: 'back',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'b',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -115,7 +132,7 @@ class GUI {
         label: 'up',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'u',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -123,7 +140,7 @@ class GUI {
         label: 'down',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'd',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -131,7 +148,7 @@ class GUI {
         label: 'left',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'l',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -139,7 +156,7 @@ class GUI {
         label: 'right',
         format: 'rgb',
         folder : 'Sticker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'r',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -153,7 +170,7 @@ class GUI {
         label: 'marker color',
         format: 'rgb',
         folder : 'Marker Config',
-        object: data,
+        object: data.stickerConfig,
         property: 'marker',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
@@ -161,19 +178,37 @@ class GUI {
         label : 'save',
         folder : 'Color Config',      
         action: () => {        
-            this.eventDispatcher.trigger('SAVE_COLOR_CONFIG', { data : this.colorConfigData});
+            this.eventDispatcher.trigger('SAVE_COLOR_CONFIG', { data : this.configData?.stickerConfig});
         }
         }));
     }
 
+    private _mirrorToggleUI(data: ConfigState){
+        
+        this.configUIs.mirrorConfigUI.push(this.gui.Register({
+            type: 'checkbox',
+            label: 'Toggle Mirror Mode',
+            folder : 'Mirror Config',
+            object: data,
+            property: 'mirrorConfig',
+            onChange: (data: any) => {
+                console.log(data);
+                this.eventDispatcher.trigger('TOGGLE_MIRROR_MODE', { data : this.configData?.mirrorConfig});
+            }
+        }));
+    }
 
     public updateAppConfigUI(data: ConfigState){
         if(this.configUIs.colorConfigUI.length > 0){      
-        this.configUIs.colorConfigUI.forEach((ui)=> this.gui.Remove(ui))      
-        this.configUIs.colorConfigUI = [];
+            this.configUIs.colorConfigUI.forEach((ui)=> this.gui.Remove(ui))      
+            this.configUIs.colorConfigUI = [];
+        }
+        if(this.configUIs.mirrorConfigUI.length>0){
+            this.configUIs.mirrorConfigUI.forEach((ui)=> this.gui.Remove(ui))      
+            this.configUIs.mirrorConfigUI = [];
         }
         this._initializeAppConfigUI(data);
-        this.colorConfigData = data;
+        this.configData = data;
     }
 
     public updateOperationUI(operationArray: Array<OperationState>){
@@ -228,7 +263,7 @@ let dat_gui: any = null;
 
 
 function PanelArea(){
-    const {stickerConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
+    const appConfig: ConfigState = useSelector((state: RootState)=> state.configReducer);
     const operations = useSelector((state: RootState)=> state.operationReducer);
     const dispatch = useDispatch();
 
@@ -292,17 +327,17 @@ function PanelArea(){
         dat_gui.eventDispatcher.on('SAVE_OPERATIONS', (event: any)=> dispatch(saveOperations(event.data)));
         dat_gui.eventDispatcher.on('REMOVE_OPERATION', (event: any)=> dispatch(removeOperation(event.data)));
         dat_gui.eventDispatcher.on('REMOVE_OPERATIONS', (event: any)=> setRemoveModalShow(true));
+        dat_gui.eventDispatcher.on('TOGGLE_MIRROR_MODE', (event: any) => dispatch(toggleMirrorMode(event.data)))
         dispatch(checkIndexedDB())
     }, []); //once
 
     useEffect(()=>{
-        console.log("%c App useEffect stickerConfig", 'background: #222; color: #bada55')
-        console.log(stickerConfig);
-        if(Object.keys(stickerConfig).length){
-        dat_gui.updateAppConfigUI(stickerConfig as ConfigState);
-        }
-        
-    },[stickerConfig])
+        console.log("%c App useEffect appConfig", 'background: #222; color: #bada55')
+        console.log(appConfig);
+        if(Object.keys(appConfig.stickerConfig).length){
+            dat_gui.updateAppConfigUI(appConfig);
+        }        
+    },[appConfig])
     useEffect(()=>{
         console.log("%c App useEffect operations", 'background: #222; color: #bada55')
         console.log(operations);   

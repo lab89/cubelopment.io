@@ -56,16 +56,16 @@ class CSS3DEnv {
                     "d": "rgba(235, 253, 57, 1)",
                 },
                 fitment : "fully_fitted",
-                mirror : true
+                mirror : false
             });
         console.log(this.cube.children[0] instanceof CSS3DObject)
         
         this.scene.add(this.cube);
         
         this.cube.animate("MS");
-        this.cube.addEventListener("operationCompleted", function(){
-            // alert("complete")
-        });
+        // this.cube.addEventListener("operationCompleted", function(){
+        //     // alert("complete")
+        // });
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableZoom = true;
@@ -77,24 +77,27 @@ class CSS3DEnv {
         });
     }
 }
-
+export const css3dEnv = new CSS3DEnv();
 function CubeArea(){
-    const {stickerConfig} = useSelector((state: RootState)=> state.configReducer);
-    
-    useEffect(()=>{
-        const css3dEnv = new CSS3DEnv();
+    const {stickerConfig, mirrorConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
+    useEffect(()=>{        
         css3dEnv.init();
         css3dEnv.animate();
         console.log(css3dEnv);
     }, []);
     useEffect(() => {
-        console.log("%c CubeArea Component", 'background: #222; color: #bada55')
-        console.log(THREE);
-        console.log(RubiksCube);
+        console.log("%c CubeArea Component stickerConfig", 'background: #222; color: #bada55')
+        console.log(stickerConfig)        
     }, [stickerConfig])
 
+    useEffect(() => {
+        console.log("%c CubeArea Component mirrorConfig", 'background: #222; color: #bada55')
+        console.log(mirrorConfig)    
+        css3dEnv.cube.toggleMirror(mirrorConfig)    
+    }, [mirrorConfig])
+
     return(
-        <div className="min-vh-100" style={{"width" : "100%", "border": "1px solid black"}} id="container">
+        <div className="min-vh-100" style={{"width" : "100%"}} id="container">
         </div>
     )
 }

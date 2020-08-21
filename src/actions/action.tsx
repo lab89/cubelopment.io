@@ -9,7 +9,8 @@ export enum actionType {
     CREATE_OPERATION = 'CREATE_OPERATION',
     REMOVE_OPERATION = 'REMOVE_OPERATION',
     SAVE_OPERATIONS = 'SAVE_OPERATIONS',
-    REMOVE_OPERATIONS = 'REMOVE_OPERATIONS'
+    REMOVE_OPERATIONS = 'REMOVE_OPERATIONS',
+    TOGGLE_MIRROR_MODE = 'TOGGLE_MIRROR_MODE'
 }
 
 export function checkIndexedDB() {
@@ -33,6 +34,9 @@ export function removeOperation(description: string){
 export function removeOperations(){
     return {type : 'REMOVE_OPERATIONS', payload: null }
 }
+export function toggleMirrorMode(toggleMirror: boolean){
+    return {type : 'TOGGLE_MIRROR_MODE', payload: toggleMirror}
+}
 
 export type checkIndexedDBAction = ReturnType<typeof checkIndexedDB>;
 export type saveConfigAction = ReturnType<typeof saveConfig>;
@@ -41,3 +45,4 @@ export type createOperationlAction = ReturnType<typeof createOperation>;
 export type saveOperationsAction = ReturnType<typeof saveOperations>;
 export type removeOperationAction = ReturnType<typeof removeOperation>;
 export type removeOperationsAction = ReturnType<typeof removeOperations>;
+export type toggleMirrorModeAction = ReturnType<typeof toggleMirrorMode>;
