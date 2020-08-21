@@ -346,7 +346,7 @@ function PanelArea(){
 
     return(
         <>
-            <div className="min-vh-100" style={{"border": "1px solid green", "overflow" : "auto"}} id="panelUI"></div>
+            <div className="min-vh-100" style={{"overflow" : "auto"}} id="panelUI"></div>
             <Modal show={createModalShow}>
                 <Modal.Header>
                 <Modal.Title>Make Operation</Modal.Title>
