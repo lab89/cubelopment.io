@@ -9,30 +9,29 @@ export interface ConfigState {
         d: string;
         b: string;
         l: string;
-        marker: string;
     } | {},
-    mirrorConfig: boolean;
+    mirrorConfig: boolean,
+    mouseInteractionConfig: {
+        hoverEnabled: boolean,
+        clickEnabled: boolean,
+        hoverColor: string,
+        clickColor: string,
+    } | {}
 }
 
 const configState: ConfigState = {
     stickerConfig : {},
-    mirrorConfig : false
+    mirrorConfig : false,
+    mouseInteractionConfig : {}
 };
 
- export function configReducer(state = configState, action: setConfigToPanelAction | toggleMirrorModeAction): ConfigState{
+ export function configReducer(state = configState, action: setConfigToPanelAction): ConfigState{
     switch(action.type){
         case actionType.SET_CONFIG_TO_PANEL:
             console.log("%c configReducer :  actionType.SET_CONFIG_TO_PANEL", 'background: #222; color: #bada55');
             console.log(action);
-            console.log({ ...state, stickerConfig: action.payload});
-            return { ...state, stickerConfig: action.payload};
-        case actionType.TOGGLE_MIRROR_MODE:            
-            if(typeof action.payload === "boolean"){
-                console.log("%c configReducer :  actionType.TOGGLE_MIRROR_MODE", 'background: #222; color: #bada55');
-                console.log({...state, ...{mirrorConfig : action.payload}})
-                return {...state, ...{mirrorConfig : action.payload}};
-            }
-            return {...state};            
+            console.log({ ...state, ...action.payload});
+            return { ...state, ...action.payload};                 
         default:
             return state;
     }

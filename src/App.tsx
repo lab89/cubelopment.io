@@ -1,6 +1,7 @@
 import React from 'react';
 import CubeArea from './CubeArea/CubeArea'
-import PanelArea from './PanelArea/PanelArea'
+import AppConfigPanel from './PanelArea/AppConfigPanel/AppConfigPanel'
+import OperationConfigPanel from './PanelArea/OperationConfigPanel/OperationConfigPanel'
 import {Container, Row, Col} from 'react-bootstrap'
 import './App.css';
 
@@ -8,13 +9,16 @@ function App() {
   return (
     <>
     <Container fluid>
-      <Row>
-        <Col sm={10} style={{padding : "0px"}}>
+      <Row>   
+        <Col sm={2} style={{padding : "0px"}}>
+          <AppConfigPanel/>
+        </Col>      
+        <Col sm={8} style={{padding : "0px"}}>
           <CubeArea/>
         </Col>
         <Col sm={2} style={{padding : "0px"}}>
-          <PanelArea/>
-        </Col>
+          <OperationConfigPanel/>
+        </Col>        
       </Row>        
     </Container>    
     </>
