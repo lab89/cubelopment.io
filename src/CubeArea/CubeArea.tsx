@@ -7,6 +7,7 @@ import { ConfigState } from '../stores/ConfigReducer';
 import RubiksCube from 'three-rubiks-cube'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import { PerspectiveCamera } from 'three';
 
 class CSS3DEnv {
     public camera: THREE.PerspectiveCamera | null = null;
@@ -29,7 +30,7 @@ class CSS3DEnv {
     }
 
     public init(ref: any){
-        this.camera = new THREE.PerspectiveCamera(40, (document.getElementById("container") as any)?.clientWidth / (document.getElementById("container") as any)?.clientHeight, 1, 10000);
+        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientHeight, 1, 10000);
         this.camera.position.x = 3000;
         this.camera.position.z = 3000;
         this.camera.position.y = 3000;
@@ -79,6 +80,15 @@ class CSS3DEnv {
         this.controls.addEventListener("change", function (e) {
             console.log("change");
         });
+
+        window.addEventListener('resize', ()=>{
+            (this.camera as THREE.PerspectiveCamera).aspect = ref.clientWidth / ref.clientHeight;
+            (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
+            
+            (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.clientHeight);
+            
+            this.render();
+        })
     }
 }
 export const css3dEnv = new CSS3DEnv();
@@ -115,7 +125,7 @@ function CubeArea(){
 
     return(
         <>            
-            <div style={{"position" : "absolute", "bottom" : "0px" , "width" : "100%"}}>
+            <div style={{"position" : "absolute", "bottom" : "0px" , "width" : "100%", "textAlign" : "center"}}>
                 <h1>Operation Operation Operation Operation Operation Operation </h1>
                 <h1>Operation Operation Operation Operation Operation Operation </h1>
             </div>

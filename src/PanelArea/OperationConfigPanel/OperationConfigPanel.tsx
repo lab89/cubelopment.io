@@ -54,7 +54,20 @@ class GUI {
             if(this.operationConfigData?.length)
                 this.eventDispatcher.trigger('REMOVE_OPERATIONS', { data : null});
         }})
-        
+        this.gui.Register({
+            type : 'button',
+            label : 'Animate All',
+            folder : 'Operation Action',      
+            action: () => {          
+            }
+        });   
+        this.gui.Register({
+            type : 'button',
+            label : 'Animate',
+            folder : 'Operation Action',      
+            action: () => {          
+            }
+        });   
 
         // this.gui.Register({
         // type : 'button',
