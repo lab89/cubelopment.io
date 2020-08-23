@@ -16,13 +16,18 @@ export interface ConfigState {
         clickEnabled: boolean,
         hoverColor: string,
         clickColor: string,
+    } | {},
+    cubeConfig: {
+        backgroundColor: string,
+        blockColor:string
     } | {}
 }
 
 const configState: ConfigState = {
     stickerConfig : {},
     mirrorConfig : false,
-    mouseInteractionConfig : {}
+    mouseInteractionConfig : {},
+    cubeConfig: {}
 };
 
  export function configReducer(state = configState, action: setConfigToPanelAction): ConfigState{

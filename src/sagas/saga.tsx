@@ -9,8 +9,9 @@ function* getConfigData(){
   const stickerConfig = yield call(()=> db.get('cubelopmentAppConfig', "StickerConfig"))
   const mirrorConfig = yield call(()=> db.get('cubelopmentAppConfig', "MirrorConfig"))
   const mouseInteractionConfig = yield call(()=> db.get('cubelopmentAppConfig', "MouseInterationConfig"))
+  const cubeConfig = yield call(()=> db.get('cubelopmentAppConfig', "CubeConfig"))
 
-  return {stickerConfig, mirrorConfig, mouseInteractionConfig};
+  return {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig};
 }
 
 function* watchCheckIndexedDB() {
@@ -43,7 +44,13 @@ function* checkIndexdDB() {
                   clickColor : "rgb(131, 219, 28)"
                 }
                 ,"MouseInterationConfig");
-
+              await store.add(
+                {
+                  backgroundColor : "rgb(255, 255, 255)",
+                  size : 300,
+                  blockColor : "rgb(0, 0, 0)",                  
+                }
+                ,"CubeConfig");
             }
           })
     });
@@ -66,6 +73,7 @@ function* saveIndexedDB(action: saveConfigAction){
     yield call(()=> db.put('cubelopmentAppConfig', action.payload.stickerConfig,  "StickerConfig"));
     yield call(()=> db.put('cubelopmentAppConfig', action.payload.mirrorConfig,  "MirrorConfig"));
     yield call(()=> db.put('cubelopmentAppConfig', action.payload.mouseInteractionConfig,  "MouseInterationConfig"));
+    yield call(()=> db.put('cubelopmentAppConfig', action.payload.cubeConfig,  "CubeConfig"));
 
     console.log("%c saveIndexedDB", 'background: #222; color: #bada55');    
     const appConfig = yield getConfigData();
@@ -97,6 +105,10 @@ function* saveAsDefaultConfig(){
     hoverColor : "red",
     clickColor : "rgb(131, 219, 28)"
   },  "MouseInterationConfig"));
+  yield call(()=> db.put('cubelopmentAppConfig', {
+    backgroundColor : "rgba(255, 255, 255)",
+    blockColor : "rgba(0, 0, 0)",                  
+  },  "CubeConfig"));  
 
   console.log("%c saveIndexedDB", 'background: #222; color: #bada55');    
   const appConfig = yield getConfigData();

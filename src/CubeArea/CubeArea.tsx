@@ -35,7 +35,7 @@ class CSS3DEnv {
         this.camera.position.z = 3000;
         this.camera.position.y = 3000;
         
-        this.scene = new THREE.Scene();
+        this.scene = new THREE.Scene();        
         
         this.renderer = new CSS3DRenderer();
         this.renderer.setSize(ref.offsetWidth, ref.clientHeight);
@@ -93,7 +93,7 @@ class CSS3DEnv {
 }
 export const css3dEnv = new CSS3DEnv();
 function CubeArea(){
-    const {stickerConfig, mirrorConfig, mouseInteractionConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
+    const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
     const cubeContainer = useRef(null);
 
     useEffect(()=>{        
@@ -101,6 +101,17 @@ function CubeArea(){
         css3dEnv.animate();
         console.log(css3dEnv);
     }, []);
+
+    useEffect(() => {
+        console.log("%c CubeArea Component cubeConfig", 'background: #222; color: #bada55')
+        console.log((cubeConfig as any).backgroundColor)               
+        if(Object.keys(cubeConfig).length){
+            (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
+            css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
+            css3dEnv.cube.refreshBlockColor();
+        }       
+    }, [cubeConfig])
+
     useEffect(() => {
         console.log("%c CubeArea Component stickerConfig", 'background: #222; color: #bada55')
         console.log(stickerConfig)      
@@ -122,6 +133,7 @@ function CubeArea(){
         console.log(mouseInteractionConfig)    
         Object.assign(css3dEnv.cube.options, mouseInteractionConfig);            
     }, [mouseInteractionConfig])
+    
 
     return(
         <>            

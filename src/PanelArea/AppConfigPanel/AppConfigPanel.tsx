@@ -36,7 +36,7 @@ class GUI {
         this.gui.Register({
             type : 'folder',
             label : 'Color Config',
-        open : true
+            open : true
         })
         this.gui.Register({
             type : 'folder',
@@ -108,55 +108,81 @@ class GUI {
 
     private _colorConfigUI(data: ConfigState){        
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'front',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'f'
+            type : 'folder',
+            label : 'Sticker Color',
+            folder : 'Color Config',
+            open : true
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'back',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'b',
+            type: 'color',
+            label: 'front',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'f'
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'up',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'u',
+            type: 'color',
+            label: 'back',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'b',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'down',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'd',
+            type: 'color',
+            label: 'up',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'u',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'left',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'l',
+            type: 'color',
+            label: 'down',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'd',
         }));
         this.configUIs.colorConfigUI.push(this.gui.Register({
-        type: 'color',
-        label: 'right',
-        format: 'rgb',
-        folder : 'Color Config',
-        object: data.stickerConfig,
-        property: 'r',
+            type: 'color',
+            label: 'left',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'l',
         }));
-        
-        
+        this.configUIs.colorConfigUI.push(this.gui.Register({
+            type: 'color',
+            label: 'right',
+            format: 'rgb',
+            folder : 'Sticker Color',
+            object: data.stickerConfig,
+            property: 'r',
+        }));
+        this.configUIs.colorConfigUI.push(this.gui.Register({
+            type : 'folder',
+            label : 'Cube & Background Color',
+            folder : 'Color Config',
+            open : true
+        }))
+        this.configUIs.colorConfigUI.push(this.gui.Register({
+            type: 'color',
+            label: 'block',
+            format: 'rgb',
+            folder : 'Cube & Background Color',
+            object: data.cubeConfig,
+            property: 'blockColor'
+        }));
+        this.configUIs.colorConfigUI.push(this.gui.Register({
+            type: 'color',
+            label: 'background',
+            format: 'rgb',
+            folder : 'Cube & Background Color',
+            object: data.cubeConfig,
+            property: 'backgroundColor'
+        }));
     }
 
     private _mirrorToggleUI(data: ConfigState){
