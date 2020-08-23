@@ -95,7 +95,7 @@ class GUI {
             label : "unselect All",
             folder : "Cube",
             action : ()=>{
-                // 모든 셀렉트 해제
+                css3dEnv.cube.unselectAllBlock();
             }
         })         
     }
