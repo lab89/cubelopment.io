@@ -76,49 +76,44 @@ class GUI {
         // action: () => {          
         //     this.eventDispatcher.trigger('SAVE_OPERATIONS', {data : this.operationConfigData})
         // }
-        // });                  
-
-        this.gui.Register({
-            type: 'title',
-            label: 'Operations'
-        });                
+        // });   
     }
 
     public updateOperationUI(operationArray: Array<OperationState>){
-        if(this.configUIs.operationConfigUI.length > 0){      
-            this.configUIs.operationConfigUI.forEach((ui)=> this.gui.Remove(ui))      
-            this.configUIs.operationConfigUI = [];
-        }
-        operationArray.forEach((operation: OperationState)=>{
-            this.configUIs.operationConfigUI.push(this.gui.Register({
-                type : 'folder',
-                label : operation.description,
-                open : true
-            }));
-            this.configUIs.operationConfigUI.push(this.gui.Register({
-                type : 'text',
-                label : 'description',
-                object: operation,
-                property: 'description',        
-                folder : operation.description,
-            }));
-            this.configUIs.operationConfigUI.push(this.gui.Register({
-                type : 'text',
-                label : 'operation',
-                object: operation,
-                property: 'operation',        
-                folder : operation.description,
-            }));           
-            this.configUIs.operationConfigUI.push(this.gui.Register({
-                type : 'button',
-                label : 'Remove',
-                folder : operation.description,
-                action: () => {        
-                    this.eventDispatcher.trigger('REMOVE_OPERATION', { data : operation.description});
-                }
-            }))
-        })  
-        this.operationConfigData = operationArray;
+        // if(this.configUIs.operationConfigUI.length > 0){      
+        //     this.configUIs.operationConfigUI.forEach((ui)=> this.gui.Remove(ui))      
+        //     this.configUIs.operationConfigUI = [];
+        // }
+        // operationArray.forEach((operation: OperationState)=>{
+        //     this.configUIs.operationConfigUI.push(this.gui.Register({
+        //         type : 'folder',
+        //         label : operation.description,
+        //         open : true
+        //     }));
+        //     this.configUIs.operationConfigUI.push(this.gui.Register({
+        //         type : 'text',
+        //         label : 'description',
+        //         object: operation,
+        //         property: 'description',        
+        //         folder : operation.description,
+        //     }));
+        //     this.configUIs.operationConfigUI.push(this.gui.Register({
+        //         type : 'text',
+        //         label : 'operation',
+        //         object: operation,
+        //         property: 'operation',        
+        //         folder : operation.description,
+        //     }));           
+        //     this.configUIs.operationConfigUI.push(this.gui.Register({
+        //         type : 'button',
+        //         label : 'Remove',
+        //         folder : operation.description,
+        //         action: () => {        
+        //             this.eventDispatcher.trigger('REMOVE_OPERATION', { data : operation.description});
+        //         }
+        //     }))
+        // })  
+        // this.operationConfigData = operationArray;
     }  
 }
 

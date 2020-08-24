@@ -63,6 +63,10 @@ class GUI {
             }
         })
         this.gui.Register({
+            type: 'title',
+            label: 'Camera Config'
+        })
+        this.gui.Register({
             type: 'folder',
             label: 'Camera',
             open : true
@@ -76,6 +80,10 @@ class GUI {
                 (css3dEnv?.camera as THREE.PerspectiveCamera).position.y = 3000;
                 (css3dEnv?.camera as THREE.PerspectiveCamera).position.z = 3000;
             }
+        })
+        this.gui.Register({
+            type: 'title',
+            label: 'Cube Config'
         })
         this.gui.Register({
             type: 'folder',
@@ -97,7 +105,7 @@ class GUI {
             action : ()=>{
                 css3dEnv.cube.unselectAllBlock();
             }
-        })         
+        })             
     }
 
     private _initializeAppConfigUI(data: ConfigState){

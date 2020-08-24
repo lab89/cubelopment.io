@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {CSS3DRenderer, CSS3DObject} from 'three/examples/jsm/renderers/CSS3DRenderer'
 import * as THREE from 'three';
 import {useSelector} from "react-redux";
@@ -93,6 +93,7 @@ class CSS3DEnv {
     }
 }
 export const css3dEnv = new CSS3DEnv();
+
 function CubeArea(){
     const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
     const cubeContainer = useRef(null);
@@ -153,19 +154,7 @@ function CubeArea(){
             </div>             */}
             <div className="min-vh-100" ref={cubeContainer} style={{"width" : "100%"}}>
             </div>
-            <div style={{"position" : "absolute", "bottom" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
-                <InputGroup>
-                    <InputGroup.Prepend>
-                        <InputGroup.Text>Share URL</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                        placeholder=""     
-                        readOnly
-                    />
-                    <InputGroup.Append>
-                    <Button variant="outline-secondary">copy</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
             </div>
         </>
         
