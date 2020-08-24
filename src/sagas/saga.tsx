@@ -106,8 +106,8 @@ function* saveAsDefaultConfig(){
     clickColor : "rgb(131, 219, 28)"
   },  "MouseInterationConfig"));
   yield call(()=> db.put('cubelopmentAppConfig', {
-    backgroundColor : "rgba(255, 255, 255)",
-    blockColor : "rgba(0, 0, 0)",                  
+    backgroundColor : "rgba(255, 255, 255,1)",
+    blockColor : "rgba(0, 0, 0, 1)",                  
   },  "CubeConfig"));  
 
   console.log("%c saveIndexedDB", 'background: #222; color: #bada55');    

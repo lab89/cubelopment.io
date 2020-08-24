@@ -8,6 +8,7 @@ import RubiksCube from 'three-rubiks-cube'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import { PerspectiveCamera } from 'three';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 
 class CSS3DEnv {
     public camera: THREE.PerspectiveCamera | null = null;
@@ -137,11 +138,34 @@ function CubeArea(){
 
     return(
         <>            
-            <div style={{"position" : "absolute", "bottom" : "0px" , "width" : "100%", "textAlign" : "center"}}>
-                <h1>Operation Operation Operation Operation Operation Operation </h1>
-                <h1>Operation Operation Operation Operation Operation Operation </h1>
-            </div>
+            {/* <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 2}}>
+                <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>Scramble</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                        placeholder="input scramble"                
+                    />
+                    <InputGroup.Append>
+                    <Button variant="outline-secondary">Apply!</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </div>             */}
             <div className="min-vh-100" ref={cubeContainer} style={{"width" : "100%"}}>
+            </div>
+            <div style={{"position" : "absolute", "bottom" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
+                <InputGroup>
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>Share URL</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                        placeholder=""     
+                        readOnly
+                    />
+                    <InputGroup.Append>
+                    <Button variant="outline-secondary">copy</Button>
+                    </InputGroup.Append>
+                </InputGroup>
             </div>
         </>
         
