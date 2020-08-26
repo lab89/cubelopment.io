@@ -7,19 +7,12 @@ import './App.css';
 import { ConfigState } from './stores/ConfigReducer';
 import { useSelector } from 'react-redux';
 import { RootState } from './stores/reducers';
-import { ReactSortable } from "react-sortablejs";
-interface ItemType {
-  id: number;
-  name: string;
-}
+
 
 function App() {
   const {cubeConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
   const textAreaContent = useRef(null);
-  const [state, setState] = useState<ItemType[]>([
-    { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" }
-  ]);
+
 
   function keydown(e: any){
     console.log(e.target.value);
