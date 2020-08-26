@@ -32,42 +32,42 @@ class GUI {
             type: 'title',
             label: 'Operation Action'
         });
-        this.gui.Register({
-            type : 'folder',
-            label : 'Operation Action',
-            open : true
-        });
+        // this.gui.Register({
+        //     type : 'folder',
+        //     label : 'Operation Action',
+        //     open : true
+        // });
         
-        this.gui.Register({
-            type : 'button',
-            label : 'Create Operation',
-            folder : 'Operation Action',      
-            action: () => {          
-                this.eventDispatcher.trigger('CREATE_OPERATION')      
-            }
-        });   
-        this.gui.Register({
-        type : 'button',
-        label : 'Remove All',
-        folder : 'Operation Action',
-        action: () => {        
-            if(this.operationConfigData?.length)
-                this.eventDispatcher.trigger('REMOVE_OPERATIONS', { data : null});
-        }})
-        this.gui.Register({
-            type : 'button',
-            label : 'Animate All',
-            folder : 'Operation Action',      
-            action: () => {          
-            }
-        });   
-        this.gui.Register({
-            type : 'button',
-            label : 'Animate',
-            folder : 'Operation Action',      
-            action: () => {          
-            }
-        });   
+        // this.gui.Register({
+        //     type : 'button',
+        //     label : 'Create Operation',
+        //     folder : 'Operation Action',      
+        //     action: () => {          
+        //         this.eventDispatcher.trigger('CREATE_OPERATION')      
+        //     }
+        // });   
+        // this.gui.Register({
+        // type : 'button',
+        // label : 'Remove All',
+        // folder : 'Operation Action',
+        // action: () => {        
+        //     if(this.operationConfigData?.length)
+        //         this.eventDispatcher.trigger('REMOVE_OPERATIONS', { data : null});
+        // }})
+        // this.gui.Register({
+        //     type : 'button',
+        //     label : 'Animate All',
+        //     folder : 'Operation Action',      
+        //     action: () => {          
+        //     }
+        // });   
+        // this.gui.Register({
+        //     type : 'button',
+        //     label : 'Animate',
+        //     folder : 'Operation Action',      
+        //     action: () => {          
+        //     }
+        // });   
 
         // this.gui.Register({
         // type : 'button',
@@ -167,7 +167,10 @@ function OperationConfigPanel(){
         }    
     }
 
-    
+    function keydown(e: any){
+        console.log(e.target.value);
+    }
+
     useEffect(()=>{
         console.log("%c CHECK_INDEXED_DB", 'background: #222; color: #bada55') 
         console.log(panelDOM.current)
@@ -196,7 +199,10 @@ function OperationConfigPanel(){
 
     return(
         <>
-            <div className="min-vh-100" ref={panelDOM} style={{"overflowY" : "auto", "overflowX" : "auto"}} id="panelUI"></div>
+            <div ref={panelDOM} id="panelUI" style={{height: "300px"}}></div>
+            <InputGroup>
+                <FormControl as="textarea" style={{resize : "none"}} aria-label="With textarea" onKeyDown={keydown} rows={15} cols={15}/>
+            </InputGroup>  
             <Modal show={createModalShow}>
                 <Modal.Header>
                 <Modal.Title>Make Operation</Modal.Title>
