@@ -1,11 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import guify from 'guify'
 import { EventDispatcher } from 'EventDispatcher';
-import { ConfigState } from '../../stores/ConfigReducer';
-import { checkIndexedDB, saveConfig, saveAsDefaultConfig} from '../../actions/action';
+import { ConfigState } from '../../../stores/ConfigReducer';
+import { checkIndexedDB, saveConfig, saveAsDefaultConfig} from '../../../actions/action';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../stores/reducers';
-import { css3dEnv } from '../../CubeArea/CubeArea';
+import { RootState } from '../../../stores/reducers';
+import { css3dEnv } from '../../../CubeArea/CubeArea';
 
 interface ConfigUIs {
     colorConfigUI: Array<any>,  

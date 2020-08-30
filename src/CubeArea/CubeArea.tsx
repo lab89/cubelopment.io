@@ -31,7 +31,7 @@ class CSS3DEnv {
     }
 
     public init(ref: any){
-        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientHeight, 1, 10000);
+        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientWidth, 1, 10000);
         this.camera.position.x = 3000;
         this.camera.position.z = 3000;
         this.camera.position.y = 3000;
@@ -39,7 +39,7 @@ class CSS3DEnv {
         this.scene = new THREE.Scene();        
         
         this.renderer = new CSS3DRenderer();
-        this.renderer.setSize(ref.offsetWidth, ref.clientHeight);
+        this.renderer.setSize(ref.clientWidth, ref.clientWidth);
         ref.appendChild(this.renderer.domElement);        
         
         this.cube = new RubiksCube({
@@ -86,7 +86,7 @@ class CSS3DEnv {
             (this.camera as THREE.PerspectiveCamera).aspect = ref.clientWidth / ref.clientHeight;
             (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
             
-            (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.clientHeight);
+            (this.renderer as CSS3DRenderer).setSize(ref.clientWidth, ref.clientHeight);
             
             this.render();
         })
@@ -108,7 +108,7 @@ function CubeArea(){
         console.log("%c CubeArea Component cubeConfig", 'background: #222; color: #bada55')
         console.log((cubeConfig as any).backgroundColor)               
         if(Object.keys(cubeConfig).length){
-            (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
+            // (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
             css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
             css3dEnv.cube.refreshBlockColor();
         }       
@@ -139,7 +139,7 @@ function CubeArea(){
 
     return(
         <> 
-            <div className="min-vh-100" ref={cubeContainer} style={{"width" : "100%"}}>
+            <div ref={cubeContainer} style={{"width" : "100%"}}>
             </div>
             <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
             </div>

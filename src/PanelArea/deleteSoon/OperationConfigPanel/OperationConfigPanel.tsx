@@ -1,13 +1,13 @@
 import React, {useEffect, useState, useRef} from 'react';
 import guify from 'guify'
 import { EventDispatcher } from 'EventDispatcher';
-import { ConfigState } from '../../stores/ConfigReducer';
-import { OperationState } from '../../stores/OperationReducer';
-import { saveOperations, createOperation, removeOperation, removeOperations } from '../../actions/action';
+import { ConfigState } from '../../../stores/ConfigReducer';
+import { OperationState } from '../../../stores/OperationReducer';
+import { saveOperations, createOperation, removeOperation, removeOperations } from '../../../actions/action';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../stores/reducers';
+import { RootState } from '../../../stores/reducers';
 import { Modal, Button, InputGroup, FormControl, Alert, Fade} from 'react-bootstrap'
-import { css3dEnv } from '../../CubeArea/CubeArea';
+import { css3dEnv } from '../../../CubeArea/CubeArea';
 
 interface ConfigUIs {
     operationConfigUI : Array<any>

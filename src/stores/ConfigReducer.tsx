@@ -1,26 +1,11 @@
 import {actionType, setConfigToPanelAction, toggleMirrorModeAction} from "../actions/action";
 
-
+interface StringMap { [key: string]: string; }
 export interface ConfigState {
-    stickerConfig: {
-        f: string;
-        r: string;
-        u: string;
-        d: string;
-        b: string;
-        l: string;
-    } | {},
+    stickerConfig: StringMap,
     mirrorConfig: boolean,
-    mouseInteractionConfig: {
-        hoverEnabled: boolean,
-        clickEnabled: boolean,
-        hoverColor: string,
-        clickColor: string,
-    } | {},
-    cubeConfig: {
-        backgroundColor: string,
-        blockColor:string
-    } | {}
+    mouseInteractionConfig: { [key: string]: string | boolean },
+    cubeConfig: StringMap
 }
 
 const configState: ConfigState = {

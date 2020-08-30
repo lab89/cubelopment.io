@@ -11,7 +11,12 @@ export enum actionType {
     REMOVE_OPERATION = 'REMOVE_OPERATION',
     SAVE_OPERATIONS = 'SAVE_OPERATIONS',
     REMOVE_OPERATIONS = 'REMOVE_OPERATIONS',
-    TOGGLE_MIRROR_MODE = 'TOGGLE_MIRROR_MODE'
+    TOGGLE_MIRROR_MODE = 'TOGGLE_MIRROR_MODE',
+    TOGGLE_FACE_COLOR_PICKER = 'TOGGLE_FACE_COLOR_PICKER',
+    SAVE_STICKER_CONFIG = 'SAVE_STICKER_CONFIG',
+    SAVE_CUBE_CONFIG = 'SAVE_CUBE_CONFIG',
+    SAVE_MIRROR_CONFIG = 'SAVE_MIRROR_CONFIG',
+    SAVE_MOUSE_INTERACTION_CONFIG = "SAVE_MOUSE_INTERACTIOVE_CONFIG"
 }
 
 export function checkIndexedDB() {
@@ -41,7 +46,21 @@ export function removeOperations(){
 export function toggleMirrorMode(toggleMirror: boolean){
     return {type : 'TOGGLE_MIRROR_MODE', payload: toggleMirror}
 }
-
+export function toggleFaceColorPicker(face: string){
+    return {type : 'TOGGLE_FACE_COLOR_PICKER', payload: face}
+}
+export function saveStickerConfig(stickerConfig: { [key: string]: string; }){
+    return {type : 'SAVE_STICKER_CONFIG', payload: stickerConfig}
+}
+export function saveCubeConfig(cubeConfig: {[key: string]: string; }){
+    return {type : 'SAVE_CUBE_CONFIG', payload: cubeConfig}
+}
+export function saveMirrorConfig(morrirConfig : boolean){
+    return {type : 'SAVE_MIRROR_CONFIG', payload: morrirConfig}
+}
+export function saveMouseInteractionConfig(mouseInteractionConfig: {[key: string]: string | boolean; }){
+    return {type : 'SAVE_MOUSE_INTERACTION_CONFIG', payload: mouseInteractionConfig}
+}
 export type checkIndexedDBAction = ReturnType<typeof checkIndexedDB>;
 export type saveConfigAction = ReturnType<typeof saveConfig>;
 export type setConfigToPanelAction = ReturnType<typeof setConfigToPanel>;
@@ -51,3 +70,8 @@ export type removeOperationAction = ReturnType<typeof removeOperation>;
 export type removeOperationsAction = ReturnType<typeof removeOperations>;
 export type toggleMirrorModeAction = ReturnType<typeof toggleMirrorMode>;
 export type saveAsDefaultConfigAction = ReturnType<typeof saveAsDefaultConfig>;
+export type toggleFaceColorPickerAction = ReturnType<typeof toggleFaceColorPicker>;
+export type saveStickerConfigAction = ReturnType<typeof saveStickerConfig>;
+export type saveCubeConfigAction = ReturnType<typeof saveCubeConfig>;
+export type saveMirrorConfigAction = ReturnType<typeof saveMirrorConfig>;
+export type saveMouseInteractionConfigAction = ReturnType<typeof saveMouseInteractionConfig>;

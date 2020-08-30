@@ -1,5 +1,5 @@
 import { takeEvery, put, delay, all, call } from "redux-saga/effects";
-import {actionType, setConfigToPanel, saveConfigAction} from "../actions/action"
+import {actionType, setConfigToPanel, saveConfigAction, saveStickerConfigAction, saveCubeConfigAction, saveMirrorConfigAction, saveMouseInteractionConfigAction} from "../actions/action"
 import { openDB, deleteDB } from 'idb/with-async-ittr.js';
 
 function* getConfigData(){
@@ -26,15 +26,15 @@ function* checkIndexdDB() {
               const store =db.createObjectStore('cubelopmentAppConfig');
               await store.add(
                 {
-                  f: "rgba(42, 249, 107, 1)",
-                  b: "rgba(5, 34, 174, 1)",
-                  l: "rgba(225, 10, 28, 1)",
-                  r: "rgba(252, 77, 30, 1)",
-                  u: "rgba(230, 245, 252, 1)",
-                  d: "rgba(235, 253, 57, 1)"
+                  f: "#83f52c",
+                  b: "#1991e0",
+                  l: "#fa7902",
+                  r: "#f5001b",
+                  u: "#e6e9ee",
+                  d: "#defa04"
                 }
                 ,"StickerConfig");
-              await store.add(false
+              await store.add(true
                 ,"MirrorConfig");
               await store.add(
                 {
@@ -46,9 +46,9 @@ function* checkIndexdDB() {
                 ,"MouseInterationConfig");
               await store.add(
                 {
-                  backgroundColor : "rgb(255, 255, 255)",
+                  backgroundColor : "#e6e9ee",
                   size : 300,
-                  blockColor : "rgb(0, 0, 0)",                  
+                  blockColor : "#000",                  
                 }
                 ,"CubeConfig");
             }
@@ -60,7 +60,62 @@ function* checkIndexdDB() {
     console.log(appConfig)
     yield put(setConfigToPanel(appConfig));
 }
+function* watchSaveStickerConfig(){
+  yield takeEvery<any>(actionType.SAVE_STICKER_CONFIG, saveStickerConfig)
+}
+function* saveStickerConfig(action: saveStickerConfigAction){
+  const db = yield call(()=> {
+    return openDB('cubelopmentConfig', 1, {})
+  });
+  yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "StickerConfig"));
+  
+  const appConfig = yield getConfigData();
+  yield put(setConfigToPanel(appConfig));
+}
 
+function* wathSaveCubeConfig(){
+  yield takeEvery<any>(actionType.SAVE_CUBE_CONFIG, saveCubeConfig)
+}
+function* saveCubeConfig(action: saveCubeConfigAction){
+  const db = yield call(()=> {
+    return openDB('cubelopmentConfig', 1, {})
+  });
+  yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "CubeConfig"));
+  console.log("%c saveCubeConfig", 'background: #222; color: #bada55');    
+  const appConfig = yield getConfigData();
+  console.log(appConfig);
+  
+  yield put(setConfigToPanel(appConfig));
+}
+
+function* watchSaveMirrorConfig(){
+  yield takeEvery<any>(actionType.SAVE_MIRROR_CONFIG, saveMirrorConfig)
+}
+function* saveMirrorConfig(action: saveMirrorConfigAction){
+  const db = yield call(()=> {
+    return openDB('cubelopmentConfig', 1, {})
+  });
+  yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "MirrorConfig"));
+  console.log("%c saveMirrorConfig", 'background: #222; color: #bada55');    
+  const appConfig = yield getConfigData();
+  console.log(appConfig);
+}
+
+function* watchSaveMouseInteractionConfig(){
+  yield takeEvery<any>(actionType.SAVE_MOUSE_INTERACTION_CONFIG, saveMouseInteractionConfig);
+}
+function* saveMouseInteractionConfig(action: saveMouseInteractionConfigAction){
+  const db = yield call(()=> {
+    return openDB('cubelopmentConfig', 1, {})
+  });
+  
+  yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "MouseInterationConfig"));
+  console.log("%c saveMouseInteractionConfig", 'background: #222; color: #bada55');    
+  const appConfig = yield getConfigData();
+  console.log(appConfig);
+
+  yield put(setConfigToPanel(appConfig));
+}
 function* watchSaveIndexedDB(){
     yield takeEvery<any>(actionType.SAVE_CONFIG, saveIndexedDB);
 }
@@ -90,13 +145,14 @@ function* saveAsDefaultConfig(){
   const db = yield call(()=> {
     return openDB('cubelopmentConfig', 1, {})
   });
+
   yield call(()=> db.put('cubelopmentAppConfig', {
-    f: "rgba(42, 249, 107, 1)",
-    b: "rgba(5, 34, 174, 1)",
-    l: "rgba(225, 10, 28, 1)",
-    r: "rgba(252, 77, 30, 1)",
-    u: "rgba(230, 245, 252, 1)",
-    d: "rgba(235, 253, 57, 1)"
+    f: "#83f52c",
+    b: "#1991e0",
+    l: "#fa7902",
+    r: "#f5001b",
+    u: "#e6e9ee",
+    d: "#defa04"
   },  "StickerConfig"));
   yield call(()=> db.put('cubelopmentAppConfig', false,  "MirrorConfig"));
   yield call(()=> db.put('cubelopmentAppConfig', {
@@ -117,5 +173,13 @@ function* saveAsDefaultConfig(){
   yield put(setConfigToPanel(appConfig));
 }
 export default function* rootSaga() {
-  yield all([watchCheckIndexedDB(), watchSaveIndexedDB(), wathSaveAsDefaultConfig()]);
+  yield all([
+    watchCheckIndexedDB(), 
+    watchSaveIndexedDB(), 
+    wathSaveAsDefaultConfig(), 
+    watchSaveStickerConfig(),
+    wathSaveCubeConfig(),
+    watchSaveMirrorConfig(),
+    watchSaveMouseInteractionConfig()
+  ]);
 }
