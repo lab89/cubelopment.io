@@ -105,6 +105,9 @@ function* watchSaveMouseInteractionConfig(){
   yield takeEvery<any>(actionType.SAVE_MOUSE_INTERACTION_CONFIG, saveMouseInteractionConfig);
 }
 function* saveMouseInteractionConfig(action: saveMouseInteractionConfigAction){
+  console.log("호로로로롤")
+  console.log(action);
+  
   const db = yield call(()=> {
     return openDB('cubelopmentConfig', 1, {})
   });

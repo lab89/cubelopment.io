@@ -11,6 +11,7 @@ function MouseInteractionColorButton(){
     function handleHoverColorChange(color: any, event: any){
         const newCubeConfig = { ...mouseInteractionConfig};
         newCubeConfig["hoverColor"] = color.hex;  
+        console.log(newCubeConfig);
         dispatch(saveMouseInteractionConfig(newCubeConfig))
     }
 
@@ -20,24 +21,29 @@ function MouseInteractionColorButton(){
         dispatch(saveMouseInteractionConfig(newCubeConfig))
     }
 
-    return(
-        <>
-            <ColorButton 
-                    attr={"hoverColor"} 
-                    color={mouseInteractionConfig["hoverColor"] as string} 
-                    text={"Hover Color"} 
-                    defaultColor={[]}
-                    onChange={handleHoverColorChange}
-            ></ColorButton>
-            <ColorButton 
-                    attr={"clickColor"} 
-                    color={mouseInteractionConfig["clickColor"] as string} 
-                    text={"Click Color"} 
-                    defaultColor={[]}
-                    onChange={handleClickColorChange}
-            ></ColorButton>
-        </>
-    )
+    if(Object.keys(mouseInteractionConfig).length){
+        return(
+            <>
+                <ColorButton 
+                        attr={"hoverColor"} 
+                        color={mouseInteractionConfig["hoverColor"] as string} 
+                        text={"Hover Color"} 
+                        defaultColor={[]}
+                        onChange={handleHoverColorChange}
+                ></ColorButton>
+                <ColorButton 
+                        attr={"clickColor"} 
+                        color={mouseInteractionConfig["clickColor"] as string} 
+                        text={"Click Color"} 
+                        defaultColor={[]}
+                        onChange={handleClickColorChange}
+                ></ColorButton>
+            </>
+        )
+    }else{
+        return(<></>)
+    }
+    
 }
 
 export default MouseInteractionColorButton;
