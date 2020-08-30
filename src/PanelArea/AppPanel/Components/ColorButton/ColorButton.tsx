@@ -38,55 +38,12 @@ function ColorButton(props:
         else setToggle(false);
     }, [globalButtonToggle])
 
-    // if(props.defaultColor.length){
-    //     return (
-    //         <>
-    //             <Button 
-    //                 key={props.attr} 
-    //                 ref={ref} 
-    //                 style={{backgroundColor: props.color, fontWeight : "bold", marginLeft : "5px", border: "0px"}} 
-    //                 onClick={()=>{
-    //                     if(props.attr === globalButtonToggle.target)
-    //                         dispatch(toggleFaceColorPicker(""))
-    //                     else
-    //                         dispatch(toggleFaceColorPicker(props.attr))
-    //                 }}>                        
-    //                 {props.text}
-    //             </Button>
-    //             <Overlay key={props.attr + "overlay"} target={ref} 
-    //                 show={toggle} placement='bottom'>
-    //                     {({ placement, arrowProps, show: _show, popper, ...props }) => (
-    //                     <div
-    //                         {...props}
-    //                         style={{     
-    //                         top : "10px",                    
-    //                         ...props.style,
-    //                         }}
-    //                     >
-    //                         <div style={{position:"relative", top : "10px"}}>
-    //                             <BlockPicker 
-    //                                 key={props.face + "colorPicker"} 
-    //                                 color={color} 
-    //                                 width={"85px"} 
-    //                                 colors={colorDefault}
-    //                                 onChange={handleColorChange}
-    //                             />
-    //                         </div>
-                            
-    //                     </div>
-    //                     )}
-    //             </Overlay> 
-    //         </>
-    //     )
-    // }else{
-    //     return(<></>)
-    // }
     return (
         <>
             <Button 
                 key={props.attr} 
                 ref={ref} 
-                style={{backgroundColor: props.color, fontWeight : "bold", marginLeft : "5px", border: "0px"}} 
+                style={{backgroundColor: props.color, fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
                 onClick={()=>{
                     if(props.attr === globalButtonToggle.target)
                         dispatch(toggleFaceColorPicker(""))
