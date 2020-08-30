@@ -28,14 +28,14 @@ function MouseInteractionColorButton(){
                         attr={"hoverColor"} 
                         color={mouseInteractionConfig["hoverColor"] as string} 
                         text={"Hover Color"} 
-                        defaultColor={[]}
+                        defaultColor={['#D9E3F0', '#F47373', '#697689', '#37D67A', '#2CCCE4', '#555555', '#dce775', '#ff8a65', '#ba68c8']}
                         onChange={handleHoverColorChange}
                 ></ColorButton>
                 <ColorButton 
                         attr={"clickColor"} 
                         color={mouseInteractionConfig["clickColor"] as string} 
                         text={"Click Color"} 
-                        defaultColor={[]}
+                        defaultColor={['#D9E3F0', '#F47373', '#697689', '#37D67A', '#2CCCE4', '#555555', '#dce775', '#ff8a65', '#ba68c8']}
                         onChange={handleClickColorChange}
                 ></ColorButton>
             </>
