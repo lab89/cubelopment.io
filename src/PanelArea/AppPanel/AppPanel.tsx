@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Col, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Alert, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIndexedDB, saveMirrorConfig } from '../../actions/action';
 import FaceButtons from './FaceColorButton/FaceColorButton'
@@ -35,22 +35,37 @@ function AppPanel(){
                 <Row style={{marginTop : "30px"}}>                
                     <Col style={{textAlign : "center"}}>                        
                         <BlockColorButton/>
-                    </Col>
-                </Row>
-                <Row style={{marginTop : "30px"}}>                
-                    <Col style={{textAlign : "center"}}>
-                        <BackgroundColorButton/>
-                    </Col>
-                </Row>
-                <Row style={{marginTop : "30px"}}>
-                    <Col style={{textAlign : "center"}}>
-                        <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
+                        <BackgroundColorButton/>                        
                     </Col>
                 </Row>
                 <Row style={{marginTop : "30px"}}>
                     <Col style={{textAlign : "center"}}>
                         <MouseInteractionColorButton/>
                     </Col>
+                </Row>
+                
+                <Row style={{marginTop : "30px"}}>
+                    <Col style={{textAlign : "center"}}>
+                        <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
+                    </Col>
+                </Row>
+                
+                <Row style={{marginTop : "30px"}}>
+                    <Col style={{textAlign : "center"}}>
+                        <Button 
+                        style={{fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
+                        > Reset Cube</Button>
+                        <Button 
+                        style={{fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
+                        > Reset Camera</Button>
+                    </Col>                    
+                </Row>
+                <Row style={{marginTop : "30px"}}>
+                    <Col style={{textAlign : "center"}}>
+                        <Button 
+                        style={{fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
+                        > Add Operation</Button>                        
+                    </Col>                    
                 </Row>
             </Container>
         </>

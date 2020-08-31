@@ -31,7 +31,7 @@ class CSS3DEnv {
     }
 
     public init(ref: any){
-        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientWidth, 1, 10000);
+        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientHeight, 1, 10000);
         this.camera.position.x = 3000;
         this.camera.position.z = 3000;
         this.camera.position.y = 3000;
@@ -39,7 +39,7 @@ class CSS3DEnv {
         this.scene = new THREE.Scene();        
         
         this.renderer = new CSS3DRenderer();
-        this.renderer.setSize(ref.clientWidth, ref.clientWidth);
+        this.renderer.setSize(ref.clientWidth, ref.clientHeight);
         ref.appendChild(this.renderer.domElement);        
         
         this.cube = new RubiksCube({
@@ -139,7 +139,7 @@ function CubeArea(){
 
     return(
         <> 
-            <div ref={cubeContainer} style={{"width" : "100%"}}>
+            <div ref={cubeContainer} className="min-vh-100"  style={{"width" : "100%"}}>
             </div>
             <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
             </div>

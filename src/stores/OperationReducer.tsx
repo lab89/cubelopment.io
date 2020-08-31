@@ -18,9 +18,7 @@ export function operationReducer(state = operationState, action: createOperation
                 operation : ""
             } as OperationState            
             newState.push(operation);
-            return newState;
-        case actionType.SAVE_OPERATIONS:
-            return (action.payload as Array<OperationState>).map((operation)=> operation);
+            return newState;        
         case actionType.REMOVE_OPERATION:
             return state.filter((operation)=> operation.description !== action.payload)            
         case actionType.REMOVE_OPERATIONS:

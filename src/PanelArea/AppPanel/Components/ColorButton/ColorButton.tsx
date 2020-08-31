@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../../stores/reducers';
 import { Button, Overlay } from 'react-bootstrap';
 import { toggleFaceColorPicker } from '../../../../actions/action';
-import { BlockPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 
 function ColorButton(props: 
     {
@@ -62,14 +62,15 @@ function ColorButton(props:
                         ...props.style,
                         }}
                     >
-                        <div style={{position:"relative", top : "10px"}}>
-                            <BlockPicker 
+                        <div style={{position:"relative", top : "10px"}}>                           
+                            <SketchPicker
                                 key={props.face + "colorPicker"} 
                                 color={color} 
-                                width={"85px"} 
-                                colors={colorDefault}
+                                width={"300px"} 
+                                presetColors = {colorDefault}
                                 onChange={handleColorChange}
                             />
+                            
                         </div>
                         
                     </div>

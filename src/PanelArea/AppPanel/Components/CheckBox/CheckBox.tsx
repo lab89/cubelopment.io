@@ -11,7 +11,7 @@ function CheckBox(props: {checked: boolean, text: string, onChange: Function}){
 
     function handleCheckChange(event: any){
         setChecked(!checked)
-        props.onChange(checked);
+        props.onChange(!checked);
     }
 
     return(
