@@ -20,7 +20,7 @@ function App() {
     <>
     <Container fluid>
       <Row>       
-        <Col sm={8} style={{padding : "0px"}}>
+        <Col sm={8} style={{padding : "0px", height : "100vh"}}>
           <CubeArea/>
         </Col>                     
         {/* , backgroundColor: (cubeConfig as any).backgroundColor}}  */}

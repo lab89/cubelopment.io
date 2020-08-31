@@ -83,6 +83,7 @@ class CSS3DEnv {
         });
 
         window.addEventListener('resize', ()=>{
+            console.log("resize");
             (this.camera as THREE.PerspectiveCamera).aspect = ref.clientWidth / ref.clientHeight;
             (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
             
@@ -139,7 +140,7 @@ function CubeArea(){
 
     return(
         <> 
-            <div ref={cubeContainer} className="min-vh-100"  style={{"width" : "100%"}}>
+            <div ref={cubeContainer}  style={{"width" : "100%", "height" : "100%"}}>
             </div>
             <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
             </div>
