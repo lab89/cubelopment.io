@@ -14,15 +14,11 @@ export function operationReducer(state = operationState, action: createOperation
         case actionType.CREATE_OPERATION:
             const operation = {
                 uuid: uuid(),
-                description: action.payload as string,
+                description: "",
                 operation : ""
             } as OperationState            
             newState.push(operation);
             return newState;        
-        case actionType.REMOVE_OPERATION:
-            return state.filter((operation)=> operation.description !== action.payload)            
-        case actionType.REMOVE_OPERATIONS:
-            return state.filter((operation)=> false);
         default:
             return state;
     }

@@ -31,8 +31,8 @@ export function saveAsDefaultConfig(){
 export function setConfigToPanel(config: ConfigState){
     return {type : 'SET_CONFIG_TO_PANEL', payload: config}
 }
-export function createOperation(description: string){
-    return {type : 'CREATE_OPERATION', payload: description}
+export function createOperation(){
+    return {type : 'CREATE_OPERATION', payload: null}
 }
 export function saveOperations(operations: Array<OperationState>){
     return {type : 'SAVE_OPERATIONS', payload: operations}
