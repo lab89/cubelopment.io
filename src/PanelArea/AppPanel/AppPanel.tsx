@@ -9,9 +9,9 @@ import MouseInteractionColorButton from './MouseInteractionColorButton/MouseInte
 import CheckBox from './Components/CheckBox/CheckBox'
 import "./AppPanel.css"
 import { RootState } from '../../stores/reducers';
-import { ReactSortable } from "react-sortablejs";
+import { ReactSortable, Sortable, MultiDrag, Swap } from "react-sortablejs";
 import { OperationState } from '../../stores/OperationReducer';
-
+Sortable.mount(new MultiDrag(), new Swap());
 const AppPanel: FC = () => { 
     const dispatch = useDispatch();
 
@@ -26,11 +26,16 @@ const AppPanel: FC = () => {
         dispatch(checkIndexedDB())
     }, [])
 
-    useEffect(()=>{
+    useEffect(()=>{        
+        //새로 생성하거나 할 때
         console.log(operations);
-        const data = operations.map((oper)=>({id : oper.uuid, description: oper.description, operation : oper.operation}));
-        setState(data)
+        setState(operations)
     },[operations])
+
+    useEffect(()=>{
+        //순서 바꾸거나 할 때
+        console.log(state);
+    }, [state])
 
     function createOperationClickHandler(){
         dispatch(createOperation())
@@ -82,12 +87,19 @@ const AppPanel: FC = () => {
                 </Row>
                 <Row style={{marginTop : "30px"}}>
                     <Col style={{textAlign : "center"}}>
-                    <ReactSortable list={state} setList={setState}>
+                    <ReactSortable list={state} setList={setState} ghostClass={'blue-background-class'} animation={150}>
                         {state.map(item => (
-                            <div key={item.id}>
-                                {'얄루'}
-                                {/* {item.description}
-                                {item.operation} */}
+                            <div key={item.id} style={{marginTop : "10px"}}> 
+                                <Form>
+                                    <Row>
+                                        <Col xs={7}>
+                                            <Form.Control as="textarea" placeholder="Description" style={{backgroundColor:"transparent", resize:"none"}} rows={3} cols={15} />
+                                        </Col>
+                                        <Col>
+                                            <Form.Control as="textarea" placeholder="Operation" style={{backgroundColor:"transparent", resize:"none"}} rows={3} cols={15} />
+                                        </Col>
+                                    </Row>
+                                    </Form>
                             </div>                            
                         ))}
                         </ReactSortable>

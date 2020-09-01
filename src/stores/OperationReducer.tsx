@@ -1,7 +1,7 @@
 import {actionType, createOperationlAction, saveOperationsAction} from "../actions/action";
 import { uuid } from 'uuidv4';
 export interface OperationState {
-    uuid: string
+    id: string
     description: string;
     operation: string;
 }
@@ -13,7 +13,7 @@ export function operationReducer(state = operationState, action: createOperation
     switch(action.type){
         case actionType.CREATE_OPERATION:
             const operation = {
-                uuid: uuid(),
+                id: uuid(),
                 description: "",
                 operation : ""
             } as OperationState            
