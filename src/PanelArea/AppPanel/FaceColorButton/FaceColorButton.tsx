@@ -33,6 +33,7 @@ function FaceColorButton(props: {face: string}){
                 text={props.face} 
                 defaultColor={colorDefault}
                 onChange={handleColorChange}
+                className={""} 
             ></ColorButton>
         </>
     )

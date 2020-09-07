@@ -1,0 +1,16 @@
+
+.icon-block {
+    background-image: url("/icons/rubik.svg");
+}
+
+.icon-background {
+    background-image: url("/icons/background.svg");
+}
+
+.icon-hover {
+    background-image: url("/icons/cursor.svg");
+}
+
+.icon-click {
+    background-image: url("/icons/click.svg");
+}

@@ -4,14 +4,15 @@ import { RootState } from '../../../../stores/reducers';
 import { Button, Overlay } from 'react-bootstrap';
 import { toggleFaceColorPicker } from '../../../../actions/action';
 import { SketchPicker } from 'react-color';
-
+import './ColorButton.css'
 function ColorButton(props: 
     {
         attr: string, 
         color: string, 
         text: string, 
         defaultColor: Array<string>,
-        onChange: Function
+        onChange: Function,
+        className: string
     }){
     
     const ref = useRef(null);
@@ -51,6 +52,11 @@ function ColorButton(props:
                         dispatch(toggleFaceColorPicker(props.attr))
                 }}>                        
                 {props.text}
+                {/* {
+                    props.className.length > 0 &&
+                    <img className={props.className} style={{width: "30px", height: "30px"}} alt=""/>
+                } */}
+                
             </Button>
             <Overlay key={props.attr + "overlay"} target={ref} 
                 show={toggle} placement='bottom'>

@@ -31,7 +31,7 @@ class CSS3DEnv {
     }
 
     public init(ref: any){
-        this.camera = new THREE.PerspectiveCamera(40, ref.clientWidth / ref.clientHeight, 1, 10000);
+        this.camera = new THREE.PerspectiveCamera(40, ref.offsetWidth / ref.offsetHeight, 1, 10000);
         this.camera.position.x = 3000;
         this.camera.position.z = 3000;
         this.camera.position.y = 3000;
@@ -39,7 +39,7 @@ class CSS3DEnv {
         this.scene = new THREE.Scene();        
         
         this.renderer = new CSS3DRenderer();
-        this.renderer.setSize(ref.clientWidth, ref.clientHeight);
+        this.renderer.setSize(ref.offsetWidth, ref.offsetHeight);
         ref.appendChild(this.renderer.domElement);        
         
         this.cube = new RubiksCube({
@@ -57,24 +57,24 @@ class CSS3DEnv {
                     "u": "rgba(230, 245, 252, 1)",
                     "d": "rgba(235, 253, 57, 1)",
                 },
-                fitment : "fully_fitted",
+                fitment : "fitted",
                 mirror : false,   
                 hoverEnabled : true,
                 clickEnabled : true,
                 hoverColor : "red",
-                clickColor : "rgb(131, 219, 28)",
+                clickColor : "black",
                 animateDuration : 1000
             });
         
         this.scene.add(this.cube);
-        
+
         // this.cube.animate("MS");
         // this.cube.addEventListener("operationCompleted", function(){
         //     // alert("complete")
         // });
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableZoom = false;
+        // this.controls.enableZoom = false;
         this.controls.enablePan = false;
         this.controls.minDistance = 500;
         this.controls.maxDistance = 10000;
@@ -83,13 +83,12 @@ class CSS3DEnv {
         });
 
         window.addEventListener('resize', ()=>{
-            console.log("resize");
-            (this.camera as THREE.PerspectiveCamera).aspect = ref.clientWidth / ref.clientHeight;
-            (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
-            
-            (this.renderer as CSS3DRenderer).setSize(ref.clientWidth, ref.clientHeight);
-            
+            console.log("resize");            
+            (this.camera as THREE.PerspectiveCamera).aspect = ref.offsetWidth / ref.offsetHeight;
+            (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();   
+            (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.offsetHeight);
             this.render();
+         
         })
     }
 }
@@ -100,16 +99,16 @@ function CubeArea(){
     const cubeContainer = useRef(null);
 
     useEffect(()=>{        
+        console.log(cubeContainer.current);
         css3dEnv.init(cubeContainer.current);
-        css3dEnv.animate();
-        console.log(css3dEnv);
-    }, []);
+        css3dEnv.animate();      
+    }, [cubeContainer]);
 
     useEffect(() => {
         console.log("%c CubeArea Component cubeConfig", 'background: #222; color: #bada55')
         console.log((cubeConfig as any).backgroundColor)               
         if(Object.keys(cubeConfig).length){
-            // (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
+            (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
             css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
             css3dEnv.cube.refreshBlockColor();
         }       
@@ -140,10 +139,10 @@ function CubeArea(){
 
     return(
         <> 
-            <div ref={cubeContainer}  style={{"width" : "100%", "height" : "100%"}}>
+            <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
-            </div>
+            {/* <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
+            </div> */}
         </>
         
     )
