@@ -9,6 +9,7 @@ import RubiksCube from 'three-rubiks-cube'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import { PerspectiveCamera } from 'three';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import {uuid} from 'uuidv4'
 
 class CSS3DEnv {
     public camera: THREE.PerspectiveCamera | null = null;
@@ -74,7 +75,8 @@ class CSS3DEnv {
         // });
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        // this.controls.enableZoom = false;
+        this.controls.enableRotate = false;
+        this.controls.enableZoom = false;
         this.controls.enablePan = false;
         this.controls.minDistance = 500;
         this.controls.maxDistance = 10000;
@@ -95,8 +97,12 @@ class CSS3DEnv {
 export const css3dEnv = new CSS3DEnv();
 
 function CubeArea(){
-    const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
+    const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig, fontConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
+    const cubeOperationInfo: {[key:string]:string;} = useSelector((state: RootState)=> state.OperationInfoReducer);
     const cubeContainer = useRef(null);
+
+    const [descriptionIdx, setDescriptionIdx] = useState(-1);
+    const [operationIdx, setOperationIdx] = useState(-1);
 
     useEffect(()=>{        
         console.log(cubeContainer.current);
@@ -136,13 +142,94 @@ function CubeArea(){
         Object.assign(css3dEnv.cube.options, mouseInteractionConfig);            
     }, [mouseInteractionConfig])
     
+    useEffect(()=>{        
+        setDescriptionIdx(-1);
+        setOperationIdx(-1);
+    }, [cubeOperationInfo])    
 
+    function play(){
+
+    }
+    function pause(){
+
+    }
+    function stop(){
+
+    }
+    function next(){                
+        if(descriptionIdx < 0 && operationIdx < 0){
+            setDescriptionIdx(0);
+            setOperationIdx(0);
+            return;
+        }         
+        const descriptionCnt = Object.keys(cubeOperationInfo).length;        
+        if(descriptionIdx < descriptionCnt){            
+            const keys = Object.keys(cubeOperationInfo);
+            const currentKey = keys[descriptionIdx];
+            const oprCnt = cubeOperationInfo[currentKey].length;
+            if(operationIdx < oprCnt - 1){
+                setOperationIdx(operationIdx + 1);
+            }else{
+                setOperationIdx(0);
+                setDescriptionIdx(descriptionIdx + 1);
+            }
+        }else{
+            setDescriptionIdx(-1);
+            setOperationIdx(-1);
+        }
+    }
+    function before(){       
+        const descriptionCnt = Object.keys(cubeOperationInfo).length;
+        if(descriptionIdx >= 0 && descriptionIdx < descriptionCnt){            
+            const keys = Object.keys(cubeOperationInfo);
+            const currentKey = keys[descriptionIdx];
+            const oprCnt = cubeOperationInfo[currentKey].length;
+            if(operationIdx > 0){
+                setOperationIdx(operationIdx - 1);
+            }else{                
+                setOperationIdx(oprCnt-1);
+                setDescriptionIdx(descriptionIdx - 1);
+            }
+        }else{
+            setDescriptionIdx(-1);
+            setOperationIdx(-1);
+        }
+    }
+    
     return(
         <> 
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
+                
             </div>
-            {/* <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "textAlign" : "center", "zIndex" : 3}}>
-            </div> */}
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            {
+                Object.keys(cubeOperationInfo).map((d, i)=>{
+                    return <div key={uuid()}>
+                        <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}}>{d} : </span>
+                        {
+                            Array.from(cubeOperationInfo[d]).map((f, j)=>{
+                                return <span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span>                    
+                            })
+                        }
+                    
+                    </div>
+                }).flat()
+            }
+            </div>
+            <div style={{"position" : "absolute", "top" : "90%" , "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            {
+                Object.keys(cubeOperationInfo).length ?
+                <div>
+                    <Button style={{marginLeft : "5px"}} onClick={play}>play</Button>
+                    <Button style={{marginLeft : "5px"}} onClick={pause}>pause</Button>
+                    <Button style={{marginLeft : "5px"}} onClick={stop}>stop</Button>
+                    <Button style={{marginLeft : "5px"}} onClick={next}>next</Button>
+                    <Button style={{marginLeft : "5px"}} onClick={before}>before</Button>
+                </div>
+                : <div></div>
+                
+            }
+            </div>
         </>
         
     )

@@ -9,11 +9,11 @@ function App() {
     <>
     <Container fluid>
       <Row>       
-        <Col sm={8} style={{padding : "0px", width: "100%", height : "100vh"}}>
+        <Col md={10} style={{padding : "0px", width: "100%", height : "100vh"}}>
           <CubeArea/>
         </Col>                     
         {/* , backgroundColor: (cubeConfig as any).backgroundColor}}  */}
-        <Col sm={4} style={{padding : "10px"}}>
+        <Col md={2} style={{padding : "0px", height : "100vh"}}>
           <AppPanel/>
         </Col>
       </Row>        

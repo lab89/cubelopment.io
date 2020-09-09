@@ -16,7 +16,7 @@ function ColorButton(props:
     }){
     
     const ref = useRef(null);
-    const globalButtonToggle =  useSelector((state: RootState)=> state.colorPickerButtonReducer);
+    const globalButtonToggle =  useSelector((state: RootState)=> state.ColorPickerButtonReducer);
     const [toggle, setToggle] = useState(false);
     const dispatch = useDispatch();
     const [color, setColor] =useState('')

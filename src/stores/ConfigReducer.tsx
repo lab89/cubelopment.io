@@ -1,21 +1,23 @@
-import {actionType, setConfigToPanelAction, toggleMirrorModeAction} from "../actions/action";
+import {actionType, setConfigToPanelAction, toggleMirrorModeAction, setOperationInfoAction} from "../actions/action";
 
 interface StringMap { [key: string]: string; }
 export interface ConfigState {
     stickerConfig: StringMap,
     mirrorConfig: boolean,
     mouseInteractionConfig: { [key: string]: string | boolean },
-    cubeConfig: StringMap
+    cubeConfig: StringMap,
+    fontConfig: StringMap
 }
 
 const configState: ConfigState = {
     stickerConfig : {},
     mirrorConfig : false,
     mouseInteractionConfig : {},
-    cubeConfig: {}
+    cubeConfig: {},
+    fontConfig : {}
 };
 
- export function configReducer(state = configState, action: setConfigToPanelAction): ConfigState{
+ export function configReducer(state = configState, action: setOperationInfoAction): ConfigState{
     switch(action.type){
         case actionType.SET_CONFIG_TO_PANEL:
             console.log("%c configReducer :  actionType.SET_CONFIG_TO_PANEL", 'background: #222; color: #bada55');

@@ -1,5 +1,5 @@
 import { takeEvery, put, delay, all, call } from "redux-saga/effects";
-import {actionType, setConfigToPanel, saveConfigAction, saveStickerConfigAction, saveCubeConfigAction, saveMirrorConfigAction, saveMouseInteractionConfigAction} from "../actions/action"
+import {actionType, setConfigToPanel, saveConfigAction, saveStickerConfigAction, saveCubeConfigAction, saveMirrorConfigAction, saveMouseInteractionConfigAction, saveFontConfigAction} from "../actions/action"
 import { openDB, deleteDB } from 'idb/with-async-ittr.js';
 
 function* getConfigData(){
@@ -10,8 +10,9 @@ function* getConfigData(){
   const mirrorConfig = yield call(()=> db.get('cubelopmentAppConfig', "MirrorConfig"))
   const mouseInteractionConfig = yield call(()=> db.get('cubelopmentAppConfig', "MouseInterationConfig"))
   const cubeConfig = yield call(()=> db.get('cubelopmentAppConfig', "CubeConfig"))
+  const fontConfig = yield call(()=> db.get('cubelopmentAppConfig', "FontConfig"))
 
-  return {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig};
+  return {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig, fontConfig};
 }
 
 function* watchCheckIndexedDB() {
@@ -51,6 +52,11 @@ function* checkIndexdDB() {
                   blockColor : "#000",                  
                 }
                 ,"CubeConfig");
+              await store.add(
+                {
+                  fontColor : "#000000",                  
+                }
+                ,"FontConfig");
             }
           })
     });
@@ -114,9 +120,20 @@ function* saveMouseInteractionConfig(action: saveMouseInteractionConfigAction){
   yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "MouseInterationConfig"));
   console.log("%c saveMouseInteractionConfig", 'background: #222; color: #bada55');    
   const appConfig = yield getConfigData();
-  console.log(appConfig);
-
   yield put(setConfigToPanel(appConfig));
+}
+function* watchSaveFontConfig(){
+  yield takeEvery<any>(actionType.SAVE_FONT_CONFIG, saveFontConfig);
+}
+function* saveFontConfig(action: saveFontConfigAction){
+  const db = yield call(()=> {
+    return openDB('cubelopmentConfig', 1, {})
+  });
+  yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "FontConfig"));
+  console.log("%c saveFontConfig", 'background: #222; color: #bada55');    
+  const appConfig = yield getConfigData();
+  yield put(setConfigToPanel(appConfig));
+
 }
 
 function* wathSaveAsDefaultConfig(){
@@ -161,6 +178,7 @@ export default function* rootSaga() {
     watchSaveStickerConfig(),
     wathSaveCubeConfig(),
     watchSaveMirrorConfig(),
-    watchSaveMouseInteractionConfig()
+    watchSaveMouseInteractionConfig(),
+    watchSaveFontConfig()
   ]);
 }

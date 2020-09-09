@@ -1,5 +1,4 @@
 import { ConfigState } from "../stores/ConfigReducer";
-import { OperationState } from "../stores/OperationReducer";
 
 
 export enum actionType {
@@ -16,7 +15,9 @@ export enum actionType {
     SAVE_STICKER_CONFIG = 'SAVE_STICKER_CONFIG',
     SAVE_CUBE_CONFIG = 'SAVE_CUBE_CONFIG',
     SAVE_MIRROR_CONFIG = 'SAVE_MIRROR_CONFIG',
-    SAVE_MOUSE_INTERACTION_CONFIG = "SAVE_MOUSE_INTERACTION_CONFIG"
+    SAVE_MOUSE_INTERACTION_CONFIG = "SAVE_MOUSE_INTERACTION_CONFIG",
+    SET_OPERATION_INFO = "SET_OPERATION_INFO",
+    SAVE_FONT_CONFIG = 'SAVE_FONT_CONFIG'
 }
 
 export function checkIndexedDB() {
@@ -30,18 +31,6 @@ export function saveAsDefaultConfig(){
 }
 export function setConfigToPanel(config: ConfigState){
     return {type : 'SET_CONFIG_TO_PANEL', payload: config}
-}
-export function createOperation(){
-    return {type : 'CREATE_OPERATION', payload: null}
-}
-export function saveOperations(operations: Array<OperationState>){
-    return {type : 'SAVE_OPERATIONS', payload: operations}
-}
-export function removeOperation(description: string){
-    return {type : 'REMOVE_OPERATION', payload: description }
-}
-export function removeOperations(){
-    return {type : 'REMOVE_OPERATIONS', payload: null }
 }
 export function toggleMirrorMode(toggleMirror: boolean){
     return {type : 'TOGGLE_MIRROR_MODE', payload: toggleMirror}
@@ -61,13 +50,16 @@ export function saveMirrorConfig(morrirConfig : boolean){
 export function saveMouseInteractionConfig(mouseInteractionConfig: {[key: string]: string | boolean; }){
     return {type : 'SAVE_MOUSE_INTERACTION_CONFIG', payload: mouseInteractionConfig}
 }
+export function setOperationInfo(operationInfo : {[key : string] : string}){
+    return {type : 'SET_OPERATION_INFO', payload : operationInfo}
+}
+export function saveFontConfig(fontConfig: {[key: string] : string;}){
+    return {type :'SAVE_FONT_CONFIG', payload : fontConfig}
+}
+
 export type checkIndexedDBAction = ReturnType<typeof checkIndexedDB>;
 export type saveConfigAction = ReturnType<typeof saveConfig>;
 export type setConfigToPanelAction = ReturnType<typeof setConfigToPanel>;
-export type createOperationlAction = ReturnType<typeof createOperation>;
-export type saveOperationsAction = ReturnType<typeof saveOperations>;
-export type removeOperationAction = ReturnType<typeof removeOperation>;
-export type removeOperationsAction = ReturnType<typeof removeOperations>;
 export type toggleMirrorModeAction = ReturnType<typeof toggleMirrorMode>;
 export type saveAsDefaultConfigAction = ReturnType<typeof saveAsDefaultConfig>;
 export type toggleFaceColorPickerAction = ReturnType<typeof toggleFaceColorPicker>;
@@ -75,3 +67,5 @@ export type saveStickerConfigAction = ReturnType<typeof saveStickerConfig>;
 export type saveCubeConfigAction = ReturnType<typeof saveCubeConfig>;
 export type saveMirrorConfigAction = ReturnType<typeof saveMirrorConfig>;
 export type saveMouseInteractionConfigAction = ReturnType<typeof saveMouseInteractionConfig>;
+export type setOperationInfoAction = ReturnType<typeof setOperationInfo>;
+export type saveFontConfigAction = ReturnType<typeof saveFontConfig>;

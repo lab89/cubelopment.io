@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
 import {configReducer} from "./ConfigReducer";
-import {operationReducer} from './OperationReducer'
-import {colorPickerButtonReducer} from './colorPickerButtonReducer'
-
+import {ColorPickerButtonReducer} from './ColorPickerButtonReducer'
+import {OperationInfoReducer} from './OperationInfoReducer'
 const rootReducer = combineReducers({
-    configReducer,
-    operationReducer,
-    colorPickerButtonReducer
+    configReducer,    
+    ColorPickerButtonReducer,
+    OperationInfoReducer,
 })
 
 export default rootReducer;

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, FC, useRef } from 'react';
+import React, { useEffect, useState, FC, useRef, RefObject } from 'react';
 import { Container, Row, Col, Form, Alert, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkIndexedDB, saveMirrorConfig, createOperation } from '../../actions/action';
+import { checkIndexedDB, saveMirrorConfig, setOperationInfo } from '../../actions/action';
 import FaceButtons from './FaceColorButton/FaceColorButton'
 import BlockColorButton from './BlockColorButton/BlockColorButton'
+import FontColorButton from './FontColorButton/FontColorButton'
 import BackgroundColorButton from './BackgroundColorButton/BackgroundColorButton'
 import MouseInteractionColorButton from './MouseInteractionColorButton/MouseInteractionColorButton'
 import CheckBox from './Components/CheckBox/CheckBox'
@@ -105,15 +106,14 @@ function parser(tokens: Array<token>): AST{
     }
     return AST;
 }
-function generator(ast: any){
+function generator(ast: AST): { [key: string]: string }{
     const RubiksCubeOperationInfo = {} as { [key: string]: string }
     while(ast.body.length){
         var node = ast.body.shift();
-        switch(node.name){
+        switch(node?.name){
             case "keyGen":
                 if(RubiksCubeOperationInfo.hasOwnProperty(node.arguments[0].value)) {
-                    console.error("duplicate descriptions!")
-                    return;
+                    throw new Error("duplicate descriptions!");
                 }
                 RubiksCubeOperationInfo[node.arguments[0].value] = ""
                 break;
@@ -126,14 +126,16 @@ function generator(ast: any){
     return RubiksCubeOperationInfo;
 }
 
-function compile(string: string){
+function compile(string: string): { [key: string]: string }{
     try{        
         const lexerResult = lexer(string);
         const parserResult = parser(lexerResult);
-        return generator(parserResult)
+        const generateResult = generator(parserResult);
+        return generateResult;
     }catch(e){
-        console.error(e);
+        console.error(e);        
     }
+    return {};
 }
 const AppPanel: FC = () => { 
     const dispatch = useDispatch();
@@ -154,8 +156,9 @@ const AppPanel: FC = () => {
             console.log((textArea.current as any).value);            
         }        
     }
-    function setButtonHandler(){
-        console.log(compile((textArea.current as any).value))
+    function setButtonHandler(){        
+        const compileResult = compile((textArea.current as any).value);
+        dispatch(setOperationInfo(compileResult));      
     }
     return(
         <>
@@ -176,7 +179,11 @@ const AppPanel: FC = () => {
                         <MouseInteractionColorButton/>
                     </Col>
                 </Row>
-                
+                <Row style={{marginTop : "30px"}}>
+                    <Col style={{textAlign : "center"}}>
+                        <FontColorButton/>
+                    </Col>
+                </Row>
                 <Row style={{marginTop : "30px"}}>
                     <Col style={{textAlign : "center"}}>
                         <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
