@@ -147,6 +147,10 @@ function CubeArea(){
         setOperationIdx(-1);
     }, [cubeOperationInfo])    
 
+    useEffect(()=>{
+        console.log(descriptionIdx);
+        console.log(operationIdx);
+    })
     function play(){
 
     }
@@ -186,9 +190,15 @@ function CubeArea(){
             const oprCnt = cubeOperationInfo[currentKey].length;
             if(operationIdx > 0){
                 setOperationIdx(operationIdx - 1);
-            }else{                
-                setOperationIdx(oprCnt-1);
-                setDescriptionIdx(descriptionIdx - 1);
+            }else{       
+                if(descriptionIdx > 0){
+                    setOperationIdx(oprCnt-1);
+                    setDescriptionIdx(descriptionIdx - 1);
+                }else{
+                    setOperationIdx(-1);
+                    setDescriptionIdx(-1);
+                }
+                    
             }
         }else{
             setDescriptionIdx(-1);
