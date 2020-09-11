@@ -75,7 +75,7 @@ class CSS3DEnv {
         // });
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableRotate = false;
+        this.controls.enableRotate = true;
         this.controls.enableZoom = false;
         this.controls.enablePan = false;
         this.controls.minDistance = 500;
@@ -100,14 +100,18 @@ function CubeArea(){
     const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig, fontConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
     const cubeOperationInfo: {[key:string]:string;} = useSelector((state: RootState)=> state.OperationInfoReducer);
     const cubeContainer = useRef(null);
-
+    const nextButton = useRef(null);
     const [descriptionIdx, setDescriptionIdx] = useState(-1);
     const [operationIdx, setOperationIdx] = useState(-1);
+    const [operationMode, setOperationMode] = useState(0)
 
     useEffect(()=>{        
         console.log(cubeContainer.current);
         css3dEnv.init(cubeContainer.current);
-        css3dEnv.animate();      
+        css3dEnv.animate();   
+        css3dEnv.cube.addEventListener("operationCompleted", function(){
+            (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
+        });
     }, [cubeContainer]);
 
     useEffect(() => {
@@ -143,16 +147,46 @@ function CubeArea(){
     }, [mouseInteractionConfig])
     
     useEffect(()=>{        
-        setDescriptionIdx(-1);
+        setDescriptionIdx(0);
         setOperationIdx(-1);
     }, [cubeOperationInfo])    
 
-    useEffect(()=>{
+    useEffect(()=>{        
+        console.log(operationIdx)
         console.log(descriptionIdx);
-        console.log(operationIdx);
+        if(operationMode === 1){
+            if(operationIdx > -1){
+                const keys = Object.keys(cubeOperationInfo);
+                if(operationIdx < cubeOperationInfo[keys[descriptionIdx]].length ){
+                    let operation = cubeOperationInfo[keys[descriptionIdx]][operationIdx];                
+                    css3dEnv.cube.animate(operation);            
+                }            
+            }
+        }else if(operationMode === -1){
+            if(operationIdx >= -1){
+                const keys = Object.keys(cubeOperationInfo);
+                let operation
+                if(operationIdx === cubeOperationInfo[keys[descriptionIdx]].length - 1){
+                    operation = cubeOperationInfo[keys[descriptionIdx + 1]][0];                
+                }else{
+                    operation = cubeOperationInfo[keys[descriptionIdx]][operationIdx + 1];                    
+                }
+                
+                if (operation.includes("'")) {
+                    operation = operation.replace((/'/i), "");
+                } else {
+                    if(operation.length === 1){
+                        operation = operation + "'";
+                    }else{
+                        operation = Array.from(operation).join("'")
+                    }
+                }                
+                css3dEnv.cube.animate(operation);            
+            }            
+        }
     })
     function play(){
-
+        (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
     }
     function pause(){
 
@@ -161,48 +195,55 @@ function CubeArea(){
 
     }
     function next(){                
+        if(!css3dEnv.cube.animationEnabled) return;        
         if(descriptionIdx < 0 && operationIdx < 0){
             setDescriptionIdx(0);
-            setOperationIdx(0);
+            setOperationIdx(0);            
             return;
-        }         
-        const descriptionCnt = Object.keys(cubeOperationInfo).length;        
-        if(descriptionIdx < descriptionCnt){            
-            const keys = Object.keys(cubeOperationInfo);
-            const currentKey = keys[descriptionIdx];
-            const oprCnt = cubeOperationInfo[currentKey].length;
-            if(operationIdx < oprCnt - 1){
-                setOperationIdx(operationIdx + 1);
+        }                 
+        const keys = Object.keys(cubeOperationInfo);
+        const descriptionCnt = Object.keys(cubeOperationInfo).length;
+        setOperationMode(1);
+
+        if(descriptionIdx < descriptionCnt){
+            const oprCnt = cubeOperationInfo[keys[descriptionIdx]].length; 
+            const nextIdx = operationIdx + 1;
+            const nextDescIdx = descriptionIdx + 1;
+            if(nextIdx >= oprCnt){
+                if(nextDescIdx < descriptionCnt){
+                    setDescriptionIdx(descriptionIdx + 1);      
+                    setOperationIdx(0);
+                }                
             }else{
-                setOperationIdx(0);
-                setDescriptionIdx(descriptionIdx + 1);
-            }
-        }else{
-            setDescriptionIdx(-1);
-            setOperationIdx(-1);
-        }
+                setOperationIdx(operationIdx + 1);
+            }       
+            
+        }       
     }
     function before(){       
+        if(!css3dEnv.cube.animationEnabled) return;
+        setOperationMode(-1)        
+        const keys = Object.keys(cubeOperationInfo);
         const descriptionCnt = Object.keys(cubeOperationInfo).length;
-        if(descriptionIdx >= 0 && descriptionIdx < descriptionCnt){            
-            const keys = Object.keys(cubeOperationInfo);
-            const currentKey = keys[descriptionIdx];
-            const oprCnt = cubeOperationInfo[currentKey].length;
-            if(operationIdx > 0){
+
+        if(descriptionIdx < descriptionCnt && descriptionIdx > -1){
+            const oprCnt = cubeOperationInfo[keys[descriptionIdx]].length;
+            const beforeIdx = operationIdx - 1;
+            const beforeDescIdx = descriptionIdx - 1;
+            if(beforeIdx > -1){                
                 setOperationIdx(operationIdx - 1);
-            }else{       
-                if(descriptionIdx > 0){
-                    setOperationIdx(oprCnt-1);
-                    setDescriptionIdx(descriptionIdx - 1);
+            }
+            else{
+                if(beforeDescIdx > -1){
+                    setOperationIdx(oprCnt - 1);                    
+                    setDescriptionIdx(descriptionIdx - 1);                    
                 }else{
                     setOperationIdx(-1);
-                    setDescriptionIdx(-1);
+                    setDescriptionIdx(0);
                 }
-                    
             }
         }else{
-            setDescriptionIdx(-1);
-            setOperationIdx(-1);
+
         }
     }
     
@@ -233,7 +274,7 @@ function CubeArea(){
                     <Button style={{marginLeft : "5px"}} onClick={play}>play</Button>
                     <Button style={{marginLeft : "5px"}} onClick={pause}>pause</Button>
                     <Button style={{marginLeft : "5px"}} onClick={stop}>stop</Button>
-                    <Button style={{marginLeft : "5px"}} onClick={next}>next</Button>
+                    <Button style={{marginLeft : "5px"}} onClick={next} ref={nextButton}>next</Button>
                     <Button style={{marginLeft : "5px"}} onClick={before}>before</Button>
                 </div>
                 : <div></div>
