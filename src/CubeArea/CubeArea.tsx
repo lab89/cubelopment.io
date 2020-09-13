@@ -67,6 +67,7 @@ class CSS3DEnv {
                 animateDuration : 1000
             });
         
+        this.cube.play = false;
         this.scene.add(this.cube);
 
         // this.cube.animate("MS");
@@ -98,7 +99,7 @@ export const css3dEnv = new CSS3DEnv();
 
 function CubeArea(){
     const {stickerConfig, mirrorConfig, mouseInteractionConfig, cubeConfig, fontConfig}: ConfigState = useSelector((state: RootState)=> state.configReducer);
-    const cubeOperationInfo: {[key:string]:string;} = useSelector((state: RootState)=> state.OperationInfoReducer);
+    const cubeOperationInfo: {[key:string]:Array<string>;} = useSelector((state: RootState)=> state.OperationInfoReducer);
     const cubeContainer = useRef(null);
     const nextButton = useRef(null);
     const [descriptionIdx, setDescriptionIdx] = useState(-1);
@@ -109,8 +110,14 @@ function CubeArea(){
         console.log(cubeContainer.current);
         css3dEnv.init(cubeContainer.current);
         css3dEnv.animate();   
-        css3dEnv.cube.addEventListener("operationCompleted", function(){
-            (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
+        css3dEnv.cube.addEventListener("operationCompleted", ()=>{            
+            if(css3dEnv.cube.play){
+                setOperationMode(0);
+                setTimeout(()=>{
+                    (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
+                }, 0)
+
+            }   
         });
     }, [cubeContainer]);
 
@@ -146,14 +153,19 @@ function CubeArea(){
         Object.assign(css3dEnv.cube.options, mouseInteractionConfig);            
     }, [mouseInteractionConfig])
     
-    useEffect(()=>{        
+    useEffect(()=>{  
+        if(Object.keys(cubeOperationInfo).length){
+            css3dEnv.cube.refreshCube();
+        }
         setDescriptionIdx(0);
-        setOperationIdx(-1);
+        setOperationIdx(-1);       
     }, [cubeOperationInfo])    
 
     useEffect(()=>{        
-        console.log(operationIdx)
+        console.log(operationMode);
+        console.log(operationIdx);
         console.log(descriptionIdx);
+        console.log("============================")
         if(operationMode === 1){
             if(operationIdx > -1){
                 const keys = Object.keys(cubeOperationInfo);
@@ -186,13 +198,17 @@ function CubeArea(){
         }
     })
     function play(){
+        setOperationMode(0);
+        css3dEnv.cube.play = true;
         (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
     }
     function pause(){
-
+        css3dEnv.cube.play = false;
     }
     function stop(){
-
+        css3dEnv.cube.play = false;
+        setDescriptionIdx(0);
+        setOperationIdx(-1);  
     }
     function next(){                
         if(!css3dEnv.cube.animationEnabled) return;        
@@ -213,6 +229,9 @@ function CubeArea(){
                 if(nextDescIdx < descriptionCnt){
                     setDescriptionIdx(descriptionIdx + 1);      
                     setOperationIdx(0);
+                }else{
+                    css3dEnv.cube.play = false;
+                    setOperationMode(0);
                 }                
             }else{
                 setOperationIdx(operationIdx + 1);

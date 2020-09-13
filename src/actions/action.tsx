@@ -50,7 +50,7 @@ export function saveMirrorConfig(morrirConfig : boolean){
 export function saveMouseInteractionConfig(mouseInteractionConfig: {[key: string]: string | boolean; }){
     return {type : 'SAVE_MOUSE_INTERACTION_CONFIG', payload: mouseInteractionConfig}
 }
-export function setOperationInfo(operationInfo : {[key : string] : string}){
+export function setOperationInfo(operationInfo : {[key : string] : Array<string>}){
     return {type : 'SET_OPERATION_INFO', payload : operationInfo}
 }
 export function saveFontConfig(fontConfig: {[key: string] : string;}){

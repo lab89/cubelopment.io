@@ -10,6 +10,7 @@ import MouseInteractionColorButton from './MouseInteractionColorButton/MouseInte
 import CheckBox from './Components/CheckBox/CheckBox'
 import "./AppPanel.css"
 import { RootState } from '../../stores/reducers';
+import { css3dEnv } from '../../CubeArea/CubeArea';
 
 interface token {
     type: string;
@@ -114,8 +115,8 @@ function parser(tokens: Array<token>): AST{
     }
     return AST;
 }
-function generator(ast: AST): { [key: string]: string }{
-    const RubiksCubeOperationInfo = {} as { [key: string]: string }
+function generator(ast: AST): { [key: string]: Array<string> }{    
+    const RubiksCubeOperationInfo = {} as { [key: string]: Array<string> }
     while(ast.body.length){
         var node = ast.body.shift();
         switch(node?.name){
@@ -125,18 +126,23 @@ function generator(ast: AST): { [key: string]: string }{
                     error.message = "description must be unique"
                     throw error;
                 }
-                RubiksCubeOperationInfo[node.arguments[0].value] = ""
+                RubiksCubeOperationInfo[node.arguments[0].value] = [""]
                 break;
             case "setValue":
                 const keys = Object.keys(RubiksCubeOperationInfo);
-                RubiksCubeOperationInfo[keys[keys.length - 1]] = node.arguments[0].value
+                const array = []
+                for (let i = 0; i < node.arguments[0].value.length; i++) {
+                    if (node.arguments[0].value[i] === "'" || node.arguments[0].value[i] === '2') array[array.length - 1] += node.arguments[0].value[i]
+                    else array.push(node.arguments[0].value[i])
+                }
+                RubiksCubeOperationInfo[keys[keys.length - 1]] = array
                 break;
         }
     }
     return RubiksCubeOperationInfo;
 }
 
-function compile(string: string): { [key: string]: string }{
+function compile(string: string): { [key: string]: Array<string> }{
     try{        
         const lexerResult = lexer(string);
         const parserResult = parser(lexerResult);
@@ -147,12 +153,12 @@ function compile(string: string): { [key: string]: string }{
         // 모든 value 돌면서 정규식으로 유효한 Operation string인지 체크!
         // "F2".match(/[^FRUDBLSMEfrudblsme'2]/)
         for(const [key, value] of Object.entries(generateResult)){
-            if(value.match(/[^FRUDBLSMEfrudblsme'2]/)) {
+            if(value.join("").match(/[^FRUDBLSMEfrudblsmexyz'2]/)) {
                 const error = new Error("syntax error");
                 error.message = 'unexpected operation string : ' + value
                 throw error;
             }
-        }
+        }        
         return generateResult;
     }catch(e){
         throw e;        
@@ -188,6 +194,14 @@ const AppPanel: FC = () => {
             setErrorMessage(e.message);
             setShowError(true);
         }        
+    }
+    function resetCameraPosition(){
+        if(css3dEnv.camera){
+            css3dEnv.camera.position.x = 3000;
+            css3dEnv.camera.position.y = 3000;
+            css3dEnv.camera.position.z = 3000;
+        }
+        
     }
     return(
         <>
@@ -225,6 +239,7 @@ const AppPanel: FC = () => {
                         > Reset Cube</Button> */}
                         <Button 
                         style={{fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
+                        onClick={resetCameraPosition}
                         > Reset Camera</Button>
                     </Col>                    
                 </Row>

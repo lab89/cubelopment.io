@@ -1,6 +1,6 @@
 import {actionType, setOperationInfoAction} from "../actions/action";
 
-interface OperationInfoState {[key : string] : string}
+interface OperationInfoState {[key : string] : Array<string>}
 let operationInfo : OperationInfoState = {};
 
 export function OperationInfoReducer(state = operationInfo, action: setOperationInfoAction ){
