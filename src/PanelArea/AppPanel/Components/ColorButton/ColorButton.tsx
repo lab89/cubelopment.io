@@ -45,6 +45,7 @@ function ColorButton(props:
                 style={{backgroundColor: props.color, fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
                 onClick={(evt)=>{
                     evt.stopPropagation();
+                    evt.nativeEvent.stopImmediatePropagation()
                     if(props.attr === globalButtonToggle.target)
                         dispatch(toggleFaceColorPicker(""))
                     else
@@ -57,7 +58,7 @@ function ColorButton(props:
                 } */}
                 
             </Button>
-            <Overlay key={props.attr + "overlay"} target={ref} 
+            <Overlay key={props.attr + "overlay"} target={ref}                 
                 show={toggle} placement='bottom'>
                     {({ placement, arrowProps, show: _show, popper, ...props }) => (
                     <div
@@ -65,15 +66,20 @@ function ColorButton(props:
                         style={{     
                         top : "10px",                    
                         ...props.style,
-                        }}
+                        }}                        
                     >
-                        <div style={{position:"relative", top : "10px"}}>                           
+                        <div style={{position:"relative", top : "10px"}}
+                            onClick={(evt)=>{
+                                evt.stopPropagation();
+                                evt.nativeEvent.stopImmediatePropagation()
+                            }}
+                        >                           
                             <SketchPicker
                                 key={props.face + "colorPicker"} 
                                 color={color} 
                                 width={"300px"} 
                                 presetColors = {colorDefault}
-                                onChange={handleColorChange}
+                                onChange={handleColorChange}                                
                             />
                             
                         </div>

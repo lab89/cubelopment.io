@@ -128,9 +128,7 @@ function CubeArea(){
         }       
     }, [cubeConfig])
 
-    useEffect(() => {
-        console.log("%c CubeArea Component stickerConfig", 'background: #222; color: #bada55')
-        console.log(stickerConfig)      
+    useEffect(() => {        
         if(Object.keys(stickerConfig).length){
             Object.assign(css3dEnv.cube.options.stickerColorSet, stickerConfig);
             css3dEnv.cube.refreshStickers();
@@ -142,9 +140,7 @@ function CubeArea(){
         css3dEnv.cube.toggleMirror(mirrorConfig)    
     }, [mirrorConfig])
 
-    useEffect(() => {
-        console.log("%c CubeArea Component mouseInteractionConfig", 'background: #222; color: #bada55')
-        console.log(mouseInteractionConfig)    
+    useEffect(() => {       
         Object.assign(css3dEnv.cube.options, mouseInteractionConfig);            
     }, [mouseInteractionConfig])
     
@@ -187,7 +183,7 @@ function CubeArea(){
                 css3dEnv.cube.animate(operation);            
             }            
         }
-    })
+    }, [operationIdx])
     function play(){
         setOperationMode(0);
         css3dEnv.cube.play = true;
