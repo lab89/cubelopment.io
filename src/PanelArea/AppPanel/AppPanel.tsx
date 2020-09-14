@@ -147,9 +147,7 @@ function compile(string: string): { [key: string]: Array<string> }{
         const lexerResult = lexer(string);
         const parserResult = parser(lexerResult);
         const generateResult = generator(parserResult);
-        console.log("############ GENERATED ###################")
-        console.log(generateResult);
-
+        
         // 모든 value 돌면서 정규식으로 유효한 Operation string인지 체크!
         // "F2".match(/[^FRUDBLSMEfrudblsme'2]/)
         for(const [key, value] of Object.entries(generateResult)){
@@ -176,14 +174,8 @@ const AppPanel: FC = () => {
     
     useEffect(()=>{        
         dispatch(checkIndexedDB())
-    }, [])
-    
+    }, [])    
 
-    function keyUpHandler(){
-        if(textArea.current){
-            console.log((textArea.current as any).value);            
-        }        
-    }
     function setButtonHandler(){        
         try {
             const compileResult = compile((textArea.current as any).value);
@@ -247,7 +239,7 @@ const AppPanel: FC = () => {
                     <Col style={{textAlign : "center"}}>
                         <Form>
                             <Row>
-                                <Form.Control as="textarea" ref={textArea} placeholder="You can enter the desired content according to the [description]:operation format, regardless of line breaks and spaces." style={{backgroundColor:"transparent", resize:"none"}} rows={10} cols={10} onKeyUp={keyUpHandler}/>
+                                <Form.Control as="textarea" ref={textArea} placeholder="You can enter the desired content according to the [description]:operation format, regardless of line breaks and spaces." style={{backgroundColor:"transparent", resize:"none"}} rows={10} cols={10}/>
                                 
                             </Row>
                         </Form>
