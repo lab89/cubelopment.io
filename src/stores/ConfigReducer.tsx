@@ -19,10 +19,7 @@ const configState: ConfigState = {
 
  export function configReducer(state = configState, action: setOperationInfoAction): ConfigState{
     switch(action.type){
-        case actionType.SET_CONFIG_TO_PANEL:
-            console.log("%c configReducer :  actionType.SET_CONFIG_TO_PANEL", 'background: #222; color: #bada55');
-            console.log(action);
-            console.log({ ...state, ...action.payload});
+        case actionType.SET_CONFIG_TO_PANEL:            
             return { ...state, ...action.payload};                 
         default:
             return state;

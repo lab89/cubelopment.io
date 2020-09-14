@@ -59,11 +59,8 @@ function* checkIndexdDB() {
                 ,"FontConfig");
             }
           })
-    });
-    
-    console.log("%c saga", 'background: #222; color: #bada55')
+    });    
     const appConfig = yield getConfigData();
-    console.log(appConfig)
     yield put(setConfigToPanel(appConfig));
 }
 function* watchSaveStickerConfig(){
@@ -87,10 +84,7 @@ function* saveCubeConfig(action: saveCubeConfigAction){
     return openDB('cubelopmentConfig', 1, {})
   });
   yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "CubeConfig"));
-  console.log("%c saveCubeConfig", 'background: #222; color: #bada55');    
-  const appConfig = yield getConfigData();
-  console.log(appConfig);
-  
+  const appConfig = yield getConfigData();  
   yield put(setConfigToPanel(appConfig));
 }
 
@@ -102,9 +96,7 @@ function* saveMirrorConfig(action: saveMirrorConfigAction){
     return openDB('cubelopmentConfig', 1, {})
   });
   yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "MirrorConfig"));
-  console.log("%c saveMirrorConfig", 'background: #222; color: #bada55');    
   const appConfig = yield getConfigData();
-  console.log(appConfig);
   yield put(setConfigToPanel(appConfig));
 
 }
@@ -118,7 +110,6 @@ function* saveMouseInteractionConfig(action: saveMouseInteractionConfigAction){
   });
   
   yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "MouseInterationConfig"));
-  console.log("%c saveMouseInteractionConfig", 'background: #222; color: #bada55');    
   const appConfig = yield getConfigData();
   yield put(setConfigToPanel(appConfig));
 }
@@ -130,7 +121,6 @@ function* saveFontConfig(action: saveFontConfigAction){
     return openDB('cubelopmentConfig', 1, {})
   });
   yield call(()=> db.put('cubelopmentAppConfig', action.payload,  "FontConfig"));
-  console.log("%c saveFontConfig", 'background: #222; color: #bada55');    
   const appConfig = yield getConfigData();
   yield put(setConfigToPanel(appConfig));
 
@@ -164,11 +154,7 @@ function* saveAsDefaultConfig(){
     backgroundColor : "rgba(255, 255, 255,1)",
     blockColor : "rgba(0, 0, 0, 1)",                  
   },  "CubeConfig"));  
-
-  console.log("%c saveIndexedDB", 'background: #222; color: #bada55');    
-  const appConfig = yield getConfigData();
-  console.log(appConfig);
-    
+  const appConfig = yield getConfigData();    
   yield put(setConfigToPanel(appConfig));
 }
 export default function* rootSaga() {

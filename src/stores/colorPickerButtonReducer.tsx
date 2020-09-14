@@ -7,13 +7,8 @@ const colorPickerButtonState: ColorPickerButtonState = {
 }
 export function ColorPickerButtonReducer(state = colorPickerButtonState, action: toggleFaceColorPickerAction){
     switch(action.type){
-        case actionType.TOGGLE_FACE_COLOR_PICKER:
-            console.log("%c faceButtonReducer :  actionType.TOGGLE_FACE_COLOR_PICKER", 'background: #222; color: #bada55');
-            console.log(action);         
-            console.log(action.payload);
-            console.log(colorPickerButtonState.target);   
+        case actionType.TOGGLE_FACE_COLOR_PICKER:           
             return {...colorPickerButtonState, ...{target: action.payload}};
-
         default:
             return state;
     }   

@@ -23,9 +23,7 @@ function ColorButton(props:
     const [colorDefault, setColorDefault] = useState([] as Array<string>)
 
     function handleColorChange(color: any, event: any){
-        console.log(color);
         setColor(color.hex);
-        console.log(props.onChange);
         props.onChange(color, event);
     }
 
@@ -45,7 +43,8 @@ function ColorButton(props:
                 key={props.attr} 
                 ref={ref} 
                 style={{backgroundColor: props.color, fontWeight : "bold", marginLeft : "5px", border: "0px", textShadow : "-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000,  1px 1px 0 #000"}} 
-                onClick={()=>{
+                onClick={(evt)=>{
+                    evt.stopPropagation();
                     if(props.attr === globalButtonToggle.target)
                         dispatch(toggleFaceColorPicker(""))
                     else

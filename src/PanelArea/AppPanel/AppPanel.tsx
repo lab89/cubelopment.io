@@ -247,7 +247,8 @@ const AppPanel: FC = () => {
                     <Col style={{textAlign : "center"}}>
                         <Form>
                             <Row>
-                                <Form.Control as="textarea" ref={textArea} placeholder="[Description]: Operation" style={{backgroundColor:"transparent", resize:"none"}} rows={10} cols={10} onKeyUp={keyUpHandler}/>
+                                <Form.Control as="textarea" ref={textArea} placeholder="You can enter the desired content according to the [description]:operation format, regardless of line breaks and spaces." style={{backgroundColor:"transparent", resize:"none"}} rows={10} cols={10} onKeyUp={keyUpHandler}/>
+                                
                             </Row>
                         </Form>
                     </Col>                           

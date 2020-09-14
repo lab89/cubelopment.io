@@ -18,7 +18,6 @@ class CSS3DEnv {
     public controls: OrbitControls | null = null;
     public cube: any = null
     constructor(){
-        console.log('css3dENV')
     }
 
     public animate() {
@@ -82,11 +81,9 @@ class CSS3DEnv {
         this.controls.minDistance = 500;
         this.controls.maxDistance = 10000;
         this.controls.addEventListener("change", function (e) {
-            console.log("change");
         });
 
         window.addEventListener('resize', ()=>{
-            console.log("resize");            
             (this.camera as THREE.PerspectiveCamera).aspect = ref.offsetWidth / ref.offsetHeight;
             (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();   
             (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.offsetHeight);
@@ -107,7 +104,6 @@ function CubeArea(){
     const [operationMode, setOperationMode] = useState(0)
 
     useEffect(()=>{        
-        console.log(cubeContainer.current);
         css3dEnv.init(cubeContainer.current);
         css3dEnv.animate();   
         css3dEnv.cube.addEventListener("operationCompleted", ()=>{            
@@ -122,8 +118,6 @@ function CubeArea(){
     }, [cubeContainer]);
 
     useEffect(() => {
-        console.log("%c CubeArea Component cubeConfig", 'background: #222; color: #bada55')
-        console.log((cubeConfig as any).backgroundColor)               
         if(Object.keys(cubeConfig).length){
             (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
             css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
@@ -132,8 +126,6 @@ function CubeArea(){
     }, [cubeConfig])
 
     useEffect(() => {
-        console.log("%c CubeArea Component stickerConfig", 'background: #222; color: #bada55')
-        console.log(stickerConfig)      
         if(Object.keys(stickerConfig).length){
             Object.assign(css3dEnv.cube.options.stickerColorSet, stickerConfig);
             css3dEnv.cube.refreshStickers();
@@ -141,15 +133,11 @@ function CubeArea(){
     }, [stickerConfig])
 
     useEffect(() => {
-        console.log("%c CubeArea Component mirrorConfig", 'background: #222; color: #bada55')
-        console.log(mirrorConfig)    
         css3dEnv.cube.options.mirror = mirrorConfig;
         css3dEnv.cube.toggleMirror(mirrorConfig)    
     }, [mirrorConfig])
 
     useEffect(() => {
-        console.log("%c CubeArea Component mouseInteractionConfig", 'background: #222; color: #bada55')
-        console.log(mouseInteractionConfig)    
         Object.assign(css3dEnv.cube.options, mouseInteractionConfig);            
     }, [mouseInteractionConfig])
     
@@ -162,10 +150,6 @@ function CubeArea(){
     }, [cubeOperationInfo])    
 
     useEffect(()=>{        
-        console.log(operationMode);
-        console.log(operationIdx);
-        console.log(descriptionIdx);
-        console.log("============================")
         if(operationMode === 1){
             if(operationIdx > -1){
                 const keys = Object.keys(cubeOperationInfo);

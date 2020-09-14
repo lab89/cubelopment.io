@@ -11,7 +11,6 @@ function MouseInteractionColorButton(){
     function handleHoverColorChange(color: any, event: any){
         const newCubeConfig = { ...mouseInteractionConfig};
         newCubeConfig["hoverColor"] = color.hex;  
-        console.log(newCubeConfig);
         dispatch(saveMouseInteractionConfig(newCubeConfig))
     }
 
