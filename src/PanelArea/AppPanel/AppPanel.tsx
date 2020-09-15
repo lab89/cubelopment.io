@@ -11,6 +11,7 @@ import CheckBox from './Components/CheckBox/CheckBox'
 import "./AppPanel.css"
 import { RootState } from '../../stores/reducers';
 import { css3dEnv } from '../../CubeArea/CubeArea';
+import { useCallback } from 'react';
 
 interface token {
     type: string;
@@ -168,15 +169,17 @@ const AppPanel: FC = () => {
     const textArea = useRef(null);
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    function mirrorToggleHandler(checked: boolean){
+
+    const mirrorToggleHandler = useCallback((checked: boolean)=>{
         dispatch(saveMirrorConfig(checked))
-    }
+    }, [])
+    
     
     useEffect(()=>{        
         dispatch(checkIndexedDB())
     }, [])    
 
-    function setButtonHandler(){        
+    const setButtonHandler = useCallback(()=>{
         try {
             const compileResult = compile((textArea.current as any).value);
             dispatch(setOperationInfo(compileResult));      
@@ -185,16 +188,17 @@ const AppPanel: FC = () => {
         }catch(e){            
             setErrorMessage(e.message);
             setShowError(true);
-        }        
-    }
-    function resetCameraPosition(){
+        }      
+    }, [])
+
+    const resetCameraPosition = useCallback(()=>{
         if(css3dEnv.camera){
             css3dEnv.camera.position.x = 3000;
             css3dEnv.camera.position.y = 3000;
             css3dEnv.camera.position.z = 3000;
         }
-        
-    }
+    }, [])    
+    
     return(
         <>
             <Container>
