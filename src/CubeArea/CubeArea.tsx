@@ -137,7 +137,7 @@ function CubeArea(){
 
     useEffect(() => {        
         css3dEnv.cube.options.mirror = mirrorConfig;
-        css3dEnv.cube.toggleMirror(mirrorConfig)    
+        css3dEnv.cube.toggleMirror()    
     }, [mirrorConfig])
 
     useEffect(() => {       
