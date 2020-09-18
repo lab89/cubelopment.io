@@ -35,7 +35,7 @@ function* checkIndexdDB() {
                   d: "#defa04"
                 }
                 ,"StickerConfig");
-              await store.add(true
+              await store.add(false
                 ,"MirrorConfig");
               await store.add(
                 {

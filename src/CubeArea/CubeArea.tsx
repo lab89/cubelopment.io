@@ -69,11 +69,6 @@ class CSS3DEnv {
         
         this.cube.play = false;
         this.scene.add(this.cube);
-
-        // this.cube.animate("MS");
-        // this.cube.addEventListener("operationCompleted", function(){
-        //     // alert("complete")
-        // });
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableRotate = true;
