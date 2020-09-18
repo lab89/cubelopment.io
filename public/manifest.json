@@ -1,9 +1,14 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "name": "cubleopment",
+  "description": "Cube Simulator Chrome Extension",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "48": "cubelopmentLOGO.png",
+    "128": "cubelopmentLOGO.png"
+  },      
+  "chrome_url_overrides" : {
+    "newtab" : "index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-dM4QTWxrr1ABCa+3RJtrYtSOoiUwzARdLwlKXxaqAxg='; object-src 'self'"
 }
