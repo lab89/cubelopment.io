@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "icons": {
-    "48": "images/cubelopmentLOGO.png",
+    "16": "images/cubelopmentLOGO16.png",
+    "48": "images/cubelopmentLOGO48.png",
     "128": "images/cubelopmentLOGO128.png"
-  },      
+  },        
   "chrome_url_overrides" : {
     "newtab" : "index.html"
   },
