@@ -7,8 +7,9 @@ import { ConfigState } from '../stores/ConfigReducer';
 import RubiksCube from 'three-rubiks-cube'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
-import { PerspectiveCamera } from 'three';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faStop, faPause, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {uuid} from 'uuidv4'
 
 class CSS3DEnv {
@@ -67,7 +68,7 @@ class CSS3DEnv {
                 animateDuration : 1000
             });
         
-        this.cube.play = false;
+        this.cube.playState = "stop";
         this.scene.add(this.cube);
         
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -105,13 +106,12 @@ function CubeArea(){
         css3dEnv.init(cubeContainer.current);
         css3dEnv.animate();   
         css3dEnv.cube.addEventListener("operationCompleted", ()=>{            
-            if(css3dEnv.cube.play){
+            if(css3dEnv.cube.playState === "play"){
                 setOperationMode(0);
                 setTimeout(()=>{
                     (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
                 }, 0)
-
-            }   
+            }            
         });
     }, [cubeContainer]);
 
@@ -140,11 +140,22 @@ function CubeArea(){
     }, [mouseInteractionConfig])
     
     useEffect(()=>{  
-        if(Object.keys(cubeOperationInfo).length){
+        const keys = Object.keys(cubeOperationInfo)
+        if(keys.length){
             css3dEnv.cube.refreshCube();
-        }
-        setDescriptionIdx(0);
-        setOperationIdx(-1);       
+            if(keys[0] === "SCRAMBLE" || keys[0] === "scramble"){
+                css3dEnv.cube.immediateOperate(cubeOperationInfo[keys[0]].join(""))         
+                setDescriptionIdx(0);                
+                setOperationIdx(cubeOperationInfo[keys[0]].join("").length - 1); 
+            }else{
+                setDescriptionIdx(0);
+                setOperationIdx(-1);  
+            }
+            
+        }else{
+            setDescriptionIdx(0);
+            setOperationIdx(-1);     
+        }              
     }, [cubeOperationInfo])    
 
     useEffect(()=>{                
@@ -181,14 +192,14 @@ function CubeArea(){
     }, [operationIdx])
     function play(){
         setOperationMode(0);
-        css3dEnv.cube.play = true;
+        css3dEnv.cube.playState = "play";
         (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
     }
     function pause(){
-        css3dEnv.cube.play = false;
+        css3dEnv.cube.playState = "pause";
     }
     function stop(){
-        css3dEnv.cube.play = false;
+        css3dEnv.cube.playState = "stop";
         setDescriptionIdx(0);
         setOperationIdx(-1);  
     }
@@ -212,7 +223,7 @@ function CubeArea(){
                     setDescriptionIdx(descriptionIdx + 1);      
                     setOperationIdx(0);
                 }else{
-                    css3dEnv.cube.play = false;
+                    css3dEnv.cube.playState = "pause";
                     setOperationMode(0);
                 }                
             }else{
@@ -271,12 +282,22 @@ function CubeArea(){
             <div style={{"position" : "absolute", "top" : "90%" , "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).length ?
-                <div>
-                    <Button style={{marginLeft : "5px"}} onClick={play}>play</Button>
-                    <Button style={{marginLeft : "5px"}} onClick={pause}>pause</Button>
-                    <Button style={{marginLeft : "5px"}} onClick={stop}>stop</Button>
-                    <Button style={{marginLeft : "5px"}} onClick={next} ref={nextButton}>next</Button>
-                    <Button style={{marginLeft : "5px"}} onClick={before}>before</Button>
+                <div>                   
+                    <Button style={{marginLeft : "5px"}} onClick={play}  variant="link">                    
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faPlay}/>
+                    </Button>
+                    <Button style={{marginLeft : "5px"}} onClick={pause} variant="link">
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faPause}/>
+                    </Button>
+                    <Button style={{marginLeft : "5px"}} onClick={stop} variant="link">
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faStop}/>
+                    </Button>
+                    <Button style={{marginLeft : "5px"}} onClick={next} ref={nextButton} variant="link">
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faArrowRight}/>
+                    </Button>
+                    <Button style={{marginLeft : "5px"}} onClick={before} variant="link">
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faArrowLeft}/>
+                    </Button>
                 </div>
                 : <div></div>
                 

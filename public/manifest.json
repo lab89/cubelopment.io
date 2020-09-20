@@ -4,11 +4,14 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "icons": {
-    "48": "cubelopmentLOGO.png",
-    "128": "cubelopmentLOGO.png"
+    "48": "images/cubelopmentLOGO.png",
+    "128": "images/cubelopmentLOGO128.png"
   },      
   "chrome_url_overrides" : {
     "newtab" : "index.html"
   },
+  "web_accessible_resources": [
+    "images/*"
+  ],
   "content_security_policy": "script-src 'self' 'sha256-dM4QTWxrr1ABCa+3RJtrYtSOoiUwzARdLwlKXxaqAxg='; object-src 'self'"
 }
