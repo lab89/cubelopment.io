@@ -277,19 +277,19 @@ function CubeArea(){
                 Object.keys(cubeOperationInfo).length ?
                 <div>                   
                     <Button style={{marginLeft : "5px"}} onClick={play}  variant="link">                    
-                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faPlay}/>
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faPlay}/>
                     </Button>
                     <Button style={{marginLeft : "5px"}} onClick={pause} variant="link">
-                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faPause}/>
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faPause}/>
                     </Button>
                     <Button style={{marginLeft : "5px"}} onClick={stop} variant="link">
-                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faStop}/>
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faStop}/>
                     </Button>
                     <Button style={{marginLeft : "5px"}} onClick={next} ref={nextButton} variant="link">
-                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faArrowRight}/>
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faArrowRight}/>
                     </Button>
                     <Button style={{marginLeft : "5px"}} onClick={before} variant="link">
-                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer"}} icon={faArrowLeft}/>
+                        <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faArrowLeft}/>
                     </Button>
                 </div>
                 : <div></div>
