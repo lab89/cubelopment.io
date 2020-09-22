@@ -165,10 +165,11 @@ function compile(string: string): { [key: string]: Array<string> }{
 }
 const AppPanel: FC = () => { 
     const dispatch = useDispatch();
-    const {mirrorConfig} = useSelector((state: RootState)=> state.configReducer);
+    const {mirrorConfig, fontConfig} = useSelector((state: RootState)=> state.configReducer);
     const textArea = useRef(null);
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    
 
     const mirrorToggleHandler = useCallback((checked: boolean)=>{
         dispatch(saveMirrorConfig(checked))
@@ -178,6 +179,12 @@ const AppPanel: FC = () => {
     useEffect(()=>{        
         dispatch(checkIndexedDB())
     }, [])    
+
+    useEffect(()=>{
+        console.log(fontConfig);
+        if(textArea.current)
+            (textArea.current as unknown as HTMLElement).style.color = fontConfig.fontColor
+    }, [fontConfig])
 
     const setButtonHandler = useCallback(()=>{
         try {
@@ -224,7 +231,7 @@ const AppPanel: FC = () => {
                     </Col>
                 </Row>
                 <Row style={{marginTop : "30px"}}>
-                    <Col style={{textAlign : "center"}}>
+                    <Col style={{textAlign : "center"}} >
                         <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
                     </Col>
                 </Row>                

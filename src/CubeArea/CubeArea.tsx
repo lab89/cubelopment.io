@@ -46,11 +46,7 @@ class CSS3DEnv {
         
         this.cube = new RubiksCube({
                 blockColor : "black",
-                size : {
-                    width : 300,
-                    height : 300,
-                    depth : 300
-                },
+                size : 300,
                 stickerColorSet : {
                     "f": "rgba(42, 249, 107, 1)",
                     "b": "rgba(5, 34, 174, 1)",
@@ -85,9 +81,7 @@ class CSS3DEnv {
             console.log("resize");            
             (this.camera as THREE.PerspectiveCamera).aspect = ref.offsetWidth / ref.offsetHeight;
             (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();   
-            (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.offsetHeight);
-            this.render();
-         
+            (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.offsetHeight);         
         })
     }
 }
@@ -116,8 +110,9 @@ function CubeArea(){
     }, [cubeContainer]);
 
     useEffect(() => {             
-        if(Object.keys(cubeConfig).length){
-            (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;
+        if(Object.keys(cubeConfig).length){            
+            // (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;            
+            document.body.style.backgroundColor = (cubeConfig as any).backgroundColor;     
             css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
             css3dEnv.cube.refreshBlockColor();
         }       
@@ -132,7 +127,7 @@ function CubeArea(){
 
     useEffect(() => {        
         css3dEnv.cube.options.mirror = mirrorConfig;
-        css3dEnv.cube.toggleMirror()    
+        css3dEnv.cube.refreshMirrorSticker()    
     }, [mirrorConfig])
 
     useEffect(() => {       
@@ -144,7 +139,7 @@ function CubeArea(){
         if(keys.length){
             css3dEnv.cube.refreshCube();
             if(keys[0] === "SCRAMBLE" || keys[0] === "scramble"){
-                css3dEnv.cube.immediateOperate(cubeOperationInfo[keys[0]].join(""))         
+                css3dEnv.cube.operate(cubeOperationInfo[keys[0]].join(""))         
                 setDescriptionIdx(0);                
                 setOperationIdx(cubeOperationInfo[keys[0]].join("").length - 1); 
             }else{
@@ -164,7 +159,7 @@ function CubeArea(){
                 const keys = Object.keys(cubeOperationInfo);
                 if(operationIdx < cubeOperationInfo[keys[descriptionIdx]].length ){
                     let operation = cubeOperationInfo[keys[descriptionIdx]][operationIdx];                
-                    css3dEnv.cube.animate(operation);            
+                    css3dEnv.cube.operateWidthAnimation(operation);            
                 }            
             }
         }else if(operationMode === -1){
@@ -186,7 +181,7 @@ function CubeArea(){
                         operation = Array.from(operation).join("'")
                     }
                 }                
-                css3dEnv.cube.animate(operation);            
+                css3dEnv.cube.operateWidthAnimation(operation);            
             }            
         }
     }, [operationIdx])
@@ -254,8 +249,6 @@ function CubeArea(){
                     setDescriptionIdx(0);
                 }
             }
-        }else{
-
         }
     }
     

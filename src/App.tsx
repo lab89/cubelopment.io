@@ -13,13 +13,12 @@ function App() {
   }
   return (
     <>
-    <Container fluid>
+    <Container fluid >
       <Row>       
-        <Col md={10} style={{padding : "0px", width: "100%", height : "100vh"}}>
+        <Col md={10} style={{padding : "0px", width: "100%", height : "95vh"}} onClick={closeColorPicker}>
           <CubeArea/>
         </Col>                     
-        {/* , backgroundColor: (cubeConfig as any).backgroundColor}}  */}
-        <Col md={2} style={{padding : "0px", height : "100vh"}} onClick={closeColorPicker}>
+        <Col md={2} style={{padding : "0px", width: "100%", height : "95vh"}} onClick={closeColorPicker}>
           <AppPanel/>
         </Col>
       </Row>        
