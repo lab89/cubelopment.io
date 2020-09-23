@@ -18,9 +18,6 @@
   },
   "web_accessible_resources": [
     "images/*"
-  ],
-  "permissions" : [
-    "management"
-  ],
+  ], 
   "content_security_policy": "script-src 'self' 'sha256-dM4QTWxrr1ABCa+3RJtrYtSOoiUwzARdLwlKXxaqAxg='; object-src 'self'"
 }
