@@ -8,11 +8,19 @@
     "48": "images/cubelopmentLOGO48.png",
     "128": "images/cubelopmentLOGO128.png"
   },        
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
   "chrome_url_overrides" : {
     "newtab" : "index.html"
   },
   "web_accessible_resources": [
     "images/*"
+  ],
+  "permissions" : [
+    "management"
   ],
   "content_security_policy": "script-src 'self' 'sha256-dM4QTWxrr1ABCa+3RJtrYtSOoiUwzARdLwlKXxaqAxg='; object-src 'self'"
 }
