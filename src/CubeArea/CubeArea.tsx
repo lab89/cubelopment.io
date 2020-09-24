@@ -11,7 +11,6 @@ import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStop, faPause, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {uuid} from 'uuidv4'
-
 class CSS3DEnv {
     public camera: THREE.PerspectiveCamera | null = null;
     public scene: THREE.Scene | null = null;
@@ -73,8 +72,8 @@ class CSS3DEnv {
         this.controls.enablePan = false;
         this.controls.minDistance = 500;
         this.controls.maxDistance = 10000;
-        this.controls.addEventListener("change", function (e) {
-        });
+        // this.controls.addEventListener("change", function (e) {
+        // });
 
         window.addEventListener('resize', ()=>{
             (this.camera as THREE.PerspectiveCamera).aspect = ref.offsetWidth / ref.offsetHeight;
@@ -133,6 +132,8 @@ function CubeArea(){
         const keys = Object.keys(cubeOperationInfo)
         if(keys.length){
             css3dEnv.cube.refreshCube();
+            setOperationMode(0)
+            css3dEnv.cube.playState = "stop";            
             if(keys[0] === "SCRAMBLE" || keys[0] === "scramble"){
                 css3dEnv.cube.operate(cubeOperationInfo[keys[0]].join(""))         
                 setDescriptionIdx(0);                
@@ -141,7 +142,6 @@ function CubeArea(){
                 setDescriptionIdx(0);
                 setOperationIdx(-1);  
             }
-            
         }else{
             setDescriptionIdx(0);
             setOperationIdx(-1);     
@@ -180,7 +180,7 @@ function CubeArea(){
             }            
         }
     }, [operationIdx])
-    function play(){
+    function play(){        
         setOperationMode(0);
         css3dEnv.cube.playState = "play";
         (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
@@ -190,10 +190,26 @@ function CubeArea(){
     }
     function stop(){
         css3dEnv.cube.playState = "stop";
-        setDescriptionIdx(0);
-        setOperationIdx(-1);  
+        const keys = Object.keys(cubeOperationInfo)
+        if(keys.length){
+            css3dEnv.cube.refreshCube();
+            setOperationMode(0)
+            css3dEnv.cube.playState = "stop";            
+            if(keys[0] === "SCRAMBLE" || keys[0] === "scramble"){
+                css3dEnv.cube.operate(cubeOperationInfo[keys[0]].join(""))         
+                setDescriptionIdx(0);                
+                setOperationIdx(cubeOperationInfo[keys[0]].length - 1); 
+            }else{
+                setDescriptionIdx(0);
+                setOperationIdx(-1);  
+            }
+        }else{
+            setDescriptionIdx(0);
+            setOperationIdx(-1);     
+        }
     }
-    function next(){                
+    function next(event: any){
+        event.stopPropagation();                
         if(!css3dEnv.cube.animationEnabled) return;        
         if(descriptionIdx < 0 && operationIdx < 0){
             setDescriptionIdx(0);
@@ -249,10 +265,10 @@ function CubeArea(){
     
     return(
         <> 
-            <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
+            <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%", "marginTop" : "25px"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 25, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 30, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
                     return < >
@@ -260,9 +276,9 @@ function CubeArea(){
                             <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}} key={uuid()}>{d} : </span>
                             {
                                 Array.from(cubeOperationInfo[d]).map((f, j)=>{
-                                    if(j % 10 !== 0 || j === 0)
+                                    if(j % 15 !== 0 || j === 0)
                                         return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span></>                    
-                                    else if(j % 10 === 0)
+                                    else if(j % 15 === 0)
                                         return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span><br key={uuid()}/></>                    
                                 })
                             }
@@ -286,7 +302,7 @@ function CubeArea(){
                     <Button style={{marginLeft : "5px"}} onClick={stop} variant="link">
                         <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faStop}/>
                     </Button>
-                    <Button style={{marginLeft : "5px"}} onClick={next} ref={nextButton} variant="link">
+                    <Button style={{marginLeft : "5px"}} onClick={(event)=> next(event)} ref={nextButton} variant="link">
                         <FontAwesomeIcon style={{marginLeft : "5px", cursor : "pointer", color : fontConfig.fontColor}} icon={faArrowRight}/>
                     </Button>
                     <Button style={{marginLeft : "5px"}} onClick={before} variant="link">
