@@ -273,7 +273,7 @@ function CubeArea(){
                 }).flat()
             }
             </div>
-            <div style={{"position" : "absolute", "top" : "90%" , "left" : "42%", "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "90%" , "left" : "42%", "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).length ?
                 <div>                   
