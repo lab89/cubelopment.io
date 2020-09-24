@@ -229,11 +229,18 @@ const AppPanel: FC = () => {
                         <FontColorButton/>
                     </Col>
                 </Row>
+                {/*
+                    <Row style={{marginTop : "30px"}}>
+                        <Col style={{textAlign : "center"}} >
+                            <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
+                        </Col>
+                    </Row>                 
+                 */}  
                 <Row style={{marginTop : "30px"}}>
                     <Col style={{textAlign : "center"}} >
                         <CheckBox checked={mirrorConfig} text={"Mirror"} onChange={mirrorToggleHandler}/>
                     </Col>
-                </Row>                
+                </Row>              
                 <Row style={{marginTop : "30px"}}>
                     <Col style={{textAlign : "center"}}>
                         {/* <Button 

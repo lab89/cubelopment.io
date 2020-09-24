@@ -143,7 +143,7 @@ function* saveAsDefaultConfig(){
     u: "#e6e9ee",
     d: "#defa04"
   },  "StickerConfig"));
-  yield call(()=> db.put('cubelopmentAppConfig', false,  "MirrorConfig"));
+  yield call(()=> db.put('cubelopmentAppConfig', true,  "MirrorConfig"));
   yield call(()=> db.put('cubelopmentAppConfig', {
     hoverEnabled : true,
     clickEnabled : true,
