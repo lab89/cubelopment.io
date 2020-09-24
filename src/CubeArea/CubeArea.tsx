@@ -74,11 +74,9 @@ class CSS3DEnv {
         this.controls.minDistance = 500;
         this.controls.maxDistance = 10000;
         this.controls.addEventListener("change", function (e) {
-            console.log("change");
         });
 
         window.addEventListener('resize', ()=>{
-            console.log("resize");            
             (this.camera as THREE.PerspectiveCamera).aspect = ref.offsetWidth / ref.offsetHeight;
             (this.camera as THREE.PerspectiveCamera).updateProjectionMatrix();   
             (this.renderer as CSS3DRenderer).setSize(ref.offsetWidth, ref.offsetHeight);         
@@ -141,7 +139,7 @@ function CubeArea(){
             if(keys[0] === "SCRAMBLE" || keys[0] === "scramble"){
                 css3dEnv.cube.operate(cubeOperationInfo[keys[0]].join(""))         
                 setDescriptionIdx(0);                
-                setOperationIdx(cubeOperationInfo[keys[0]].join("").length - 1); 
+                setOperationIdx(cubeOperationInfo[keys[0]].length - 1); 
             }else{
                 setDescriptionIdx(0);
                 setOperationIdx(-1);  
@@ -257,7 +255,7 @@ function CubeArea(){
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
                     return <div key={uuid()}>
