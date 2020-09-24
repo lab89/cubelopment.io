@@ -153,7 +153,7 @@ function CubeArea(){
         }              
     }, [cubeOperationInfo])    
 
-    useEffect(()=>{                
+    useEffect(()=>{                        
         if(operationMode === 1){
             if(operationIdx > -1){
                 const keys = Object.keys(cubeOperationInfo);
@@ -242,7 +242,7 @@ function CubeArea(){
             }
             else{
                 if(beforeDescIdx > -1){
-                    setOperationIdx(oprCnt - 1);                    
+                    setOperationIdx(cubeOperationInfo[keys[descriptionIdx - 1]].length - 1);                    
                     setDescriptionIdx(descriptionIdx - 1);                    
                 }else{
                     setOperationIdx(-1);
