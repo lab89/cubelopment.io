@@ -56,7 +56,7 @@ class CSS3DEnv {
                     "d": "rgba(235, 253, 57, 1)",
                 },
                 fitment : "fitted",
-                mirror : false,   
+                mirror : true,   
                 hoverEnabled : true,
                 clickEnabled : true,
                 hoverColor : "red",
@@ -100,16 +100,13 @@ function CubeArea(){
         css3dEnv.cube.addEventListener("operationCompleted", ()=>{            
             if(css3dEnv.cube.playState === "play"){
                 setOperationMode(0);
-                setTimeout(()=>{
-                    (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
-                }, 0)
+                (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
             }            
         });
     }, [cubeContainer]);
 
-    useEffect(() => {             
+    useEffect(() => {   
         if(Object.keys(cubeConfig).length){            
-            // (css3dEnv.renderer as CSS3DRenderer).domElement.style.backgroundColor = (cubeConfig as any).backgroundColor;            
             document.body.style.backgroundColor = (cubeConfig as any).backgroundColor;     
             css3dEnv.cube.options.blockColor = (cubeConfig as any).blockColor;
             css3dEnv.cube.refreshBlockColor();
@@ -123,7 +120,7 @@ function CubeArea(){
         }
     }, [stickerConfig])
 
-    useEffect(() => {        
+    useEffect(() => {          
         css3dEnv.cube.options.mirror = mirrorConfig;
         css3dEnv.cube.refreshMirrorSticker()    
     }, [mirrorConfig])
@@ -151,7 +148,7 @@ function CubeArea(){
         }              
     }, [cubeOperationInfo])    
 
-    useEffect(()=>{                        
+    useEffect(()=>{               
         if(operationMode === 1){
             if(operationIdx > -1){
                 const keys = Object.keys(cubeOperationInfo);
@@ -255,22 +252,28 @@ function CubeArea(){
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 20, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
-                    return <div key={uuid()}>
-                        <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}}>{d} : </span>
-                        {
-                            Array.from(cubeOperationInfo[d]).map((f, j)=>{
-                                return <span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span>                    
-                            })
-                        }
-                    
-                    </div>
+                    return < >
+                        <div key={uuid()}>
+                            <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}} key={uuid()}>{d} : </span>
+                            {
+                                Array.from(cubeOperationInfo[d]).map((f, j)=>{
+                                    if(j % 20 !== 0 || j === 0)
+                                        return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span></>                    
+                                    else if(j % 20 === 0)
+                                        return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span><br key={uuid()}/></>                    
+                                })
+                            }
+                        
+                        </div>
+                        <br key={uuid()}/>
+                    </>
                 }).flat()
             }
             </div>
-            <div style={{"position" : "absolute", "top" : "90%" , "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "90%" , "left" : "42%", "width" : "100%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 40, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).length ?
                 <div>                   

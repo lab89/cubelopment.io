@@ -15,7 +15,7 @@ function App() {
     <>
     <Container fluid >
       <Row>       
-        <Col md={10} style={{padding : "0px", width: "100%", height : "95vh"}} onClick={closeColorPicker}>
+        <Col md={10} style={{padding : "0px", width: "100%", height : "95vh"}}>
           <CubeArea/>
         </Col>                     
         <Col md={2} style={{padding : "0px", width: "100%", height : "95vh"}} onClick={closeColorPicker}>
