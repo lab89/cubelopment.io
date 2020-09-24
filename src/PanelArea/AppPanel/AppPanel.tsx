@@ -32,7 +32,7 @@ interface AST {
 }
 
 function lexer (code:string) : Array<token>{    
-    const trimCode = code.replace("/\s\r\n\t/g", "");  
+    const trimCode = code.replace(/\s+/g, "");  
     const codeArray = Array.from(trimCode);
     return codeArray.map((char, index)=>{
           if(char === "[" && index > 0) char = " " + char;
@@ -181,7 +181,6 @@ const AppPanel: FC = () => {
     }, [])    
 
     useEffect(()=>{
-        console.log(fontConfig);
         if(textArea.current)
             (textArea.current as unknown as HTMLElement).style.color = fontConfig.fontColor
     }, [fontConfig])
