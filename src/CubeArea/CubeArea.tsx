@@ -100,9 +100,7 @@ function CubeArea(){
         css3dEnv.cube.addEventListener("operationCompleted", ()=>{            
             if(css3dEnv.cube.playState === "play"){
                 setOperationMode(0);
-                setTimeout(()=>{
-                    (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
-                }, 0)
+                (nextButton.current as any).dispatchEvent(new Event('click', {bubbles : true}))
             }            
         });
     }, [cubeContainer]);
@@ -151,7 +149,7 @@ function CubeArea(){
         }              
     }, [cubeOperationInfo])    
 
-    useEffect(()=>{                        
+    useEffect(()=>{               
         if(operationMode === 1){
             if(operationIdx > -1){
                 const keys = Object.keys(cubeOperationInfo);
