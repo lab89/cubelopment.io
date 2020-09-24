@@ -252,7 +252,7 @@ function CubeArea(){
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 20, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 25, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
                     return < >
@@ -260,9 +260,9 @@ function CubeArea(){
                             <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}} key={uuid()}>{d} : </span>
                             {
                                 Array.from(cubeOperationInfo[d]).map((f, j)=>{
-                                    if(j % 20 !== 0 || j === 0)
+                                    if(j % 10 !== 0 || j === 0)
                                         return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span></>                    
-                                    else if(j % 20 === 0)
+                                    else if(j % 10 === 0)
                                         return <><span key={uuid()} style={{ color : j === operationIdx && i === descriptionIdx  ? "red" : "inherit"}}>{f}</span><br key={uuid()}/></>                    
                                 })
                             }
