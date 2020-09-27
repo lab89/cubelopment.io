@@ -268,12 +268,12 @@ function CubeArea(){
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%", "marginTop" : "25px"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 30, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "0px" , "left" : "30px", "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 30, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
                     return < >
                         <div key={uuid()}>
-                            <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}} key={uuid()}>{d} : </span>
+                            <span style={{ color : i === descriptionIdx  ? "red" : "inherit"}} key={uuid()}> - {d}</span><br/>
                             {
                                 Array.from(cubeOperationInfo[d]).map((f, j)=>{
                                     if(j % 15 !== 0 || j === 0)
