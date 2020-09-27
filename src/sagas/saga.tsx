@@ -47,7 +47,7 @@ function* checkIndexdDB() {
                 ,"MouseInterationConfig");
               await store.add(
                 {
-                  backgroundColor : "#e6e9ee",
+                  backgroundColor : "#fff",
                   size : 300,
                   blockColor : "#000",                  
                 }
