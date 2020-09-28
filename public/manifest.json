@@ -1,7 +1,7 @@
 {
-  "name": "cubleopment",
+  "name": "cubelopment",
   "description": "Cube Simulator Chrome Extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 2,
   "icons": {
     "16": "images/cubelopmentLOGO16.png",
