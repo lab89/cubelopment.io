@@ -268,7 +268,7 @@ function CubeArea(){
             <div ref={cubeContainer} style={{"width" : "100%", "height" : "100%", "marginTop" : "25px"}}>
                 
             </div>
-            <div style={{"position" : "absolute", "top" : "0px" , "left" : "30px", "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 30, fontWeight : "bold"}} >
+            <div style={{"position" : "absolute", "top" : "25px" , "left" : "30px", "width" : "50%", "zIndex" : 3, color : fontConfig.fontColor, fontSize : 30, fontWeight : "bold"}} >
             {
                 Object.keys(cubeOperationInfo).map((d, i)=>{
                     return < >
