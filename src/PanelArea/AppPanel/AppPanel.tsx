@@ -46,10 +46,17 @@ function lexer (code:string) : Array<token>{
     .map((t)=>{
         if(t.includes("[") || t.includes("]")){
             if(t.includes("[") && t.includes("]")){
-                return [
+                if(t.length<=2){
+                    const error = new Error("syntax error");
+                    error.message = "[ ] must have string : " + t;
+                    throw error;
+                }else{
+                    return [
                         {type : "action", value : "keyGen"}, 
                         {type: "value", value : t.slice(1, t.length - 1)}
                     ];
+                }
+                
             }else if(!t.includes("[") || !t.includes("]")){      
                 const error = new Error("syntax error");
                 error.message = "[, ] must be pair : " + t;
@@ -98,7 +105,7 @@ function parser(tokens: Array<token>): AST{
                 }
                 let argument = tokens.shift();
                 if(argument?.type !== "value"){                  
-                    throw new Error("syntax error!")                    
+                    throw new Error("must input operations!")                    
                 }else{
                     expression.arguments.push({
                         type : "StringLiteral",
